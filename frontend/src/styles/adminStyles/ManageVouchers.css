@@ -1,0 +1,255 @@
+/* filepath: /c:/marketplace/frontend/src/styles/adminStyles/ManageVouchers.css */
+.manage-vouchers {
+    padding: 20px;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .header h2 {
+    margin: 0;
+  }
+  
+  .header-actions {
+    display: flex;
+    align-items: center;
+  }
+  
+  .search-bar {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 200px;
+  }
+
+  .create-voucher-button {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    margin-left: 10px;
+    background-color: #EE4D2D;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+  }
+
+  .create-voucher-button .button-icon {
+    margin-right: 8px;
+    height: 24px;
+    width: 24px;
+  }
+
+
+  .voucher-code-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .voucher-item p {
+    margin: 0;
+    padding: 10px 0;
+  }
+  
+  .voucher-list {
+    border-top: 1px solid #ddd;
+    width: 100%;
+    background-color: #fff;
+    padding: 0;
+  }
+  
+  .voucher-list-header {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    padding: 10px 20px;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+    background-color: #f5f5f5;
+    font-weight: 400;
+  }
+  
+  .voucher-item {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    text-align: center;
+    font-size: 14px;
+  }
+  
+  .voucher-item span {
+    margin: 0;
+    padding: 10px 0;
+  }
+  
+  .voucher-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
+  
+  .edit-button,
+  .duplicate-button,
+  .end-button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .edit-button {
+    color: #0055AA;
+    text-decoration: none;
+  }
+  
+  .edit-button:hover {
+    text-decoration: none;
+  }
+
+  .duplicate-button {
+    background-color: #ff9800;
+    color: #fff;
+  }
+  
+  .end-button {
+    background-color: #f44336;
+    color: #fff;
+  }
+
+  
+  .duplicate-button:hover {
+    background-color: #e68900;
+  }
+  
+  .end-button:hover {
+    background-color: #d32f2f;
+  }
+
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 700px;
+    margin: 30px auto;
+  }
+  
+  h1 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333333;
+  }
+  
+  .voucher-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    max-width: 500px;
+    margin: 30px auto; /* Center the form */
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  
+  .voucher-form label {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    font-size: 14px;
+    color: #555555;
+  }
+  
+  .voucher-form input,
+  .voucher-form textarea,
+  .voucher-form select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top: 5px;
+  }
+  
+  .voucher-form input:focus,
+  .voucher-form select:focus,
+  .voucher-form textarea:focus {
+    outline: none;
+    border-color: rgb(61, 61, 61);  
+}
+  
+.date-inputs,
+.discount-inputs {
+  display: flex;
+  gap: 10px;
+}
+
+  .date-inputs input[type="date"] {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: #f9f9f9;
+    width: 150px; /* Adjust the width as needed */
+  }
+
+  .date-inputs input[type="date"]:focus {
+    outline: none;
+    border-color: rgb(61, 61, 61);
+  }
+  
+  .date-separator {
+    font-size: 18px;
+    color: #555;
+  }
+  
+  .date-inputs span {
+    font-size: 18px;
+    color: #555;
+  }
+  
+  .button-group {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
+  
+  .voucher-confirm-button {
+    background-color: #EE4D2D;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .voucher-confirm-button:hover {
+    background-color: rgb(238, 68, 56);
+    color: #fff;
+  }
+  
+  .voucher-cancel-button {
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+ 
+  .voucher-cancel-button:hover {
+    background-color: #e4e4e4;
+  }
+  

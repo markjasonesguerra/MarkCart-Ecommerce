@@ -1,0 +1,37 @@
+.sidebar {
+  width: 250px;
+  padding: 10px;
+}
+
+.sidebar-section {
+  margin-bottom: 20px;
+}
+
+.section-header {
+  font-weight: bold;
+  cursor: pointer;
+  padding: 10px 0;
+  color: #333;
+}
+
+.section-header.active {
+  color: #f75828;
+}
+
+.category-list {
+  margin-top: 5px;
+  padding-left: 15px;
+  list-style: none;
+}
+
+.category-list li {
+  margin-top: 5px;
+  padding: 8px 0;
+  cursor: pointer;
+  color: #555;
+}
+
+.category-list li.active {
+  color: #007bff;
+  font-weight: bold;
+}

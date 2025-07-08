@@ -1,0 +1,499 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Roboto, Helvetica Neue, Helvetica, Arial, 文泉驛正黑, WenQuanYi Zen Hei, Hiragino Sans GB, 儷黑 Pro, LiHei Pro, Heiti TC, 微軟正黑體, Microsoft JhengHei UI, Microsoft JhengHei, sans-serif;
+    background-color: #F5F5F5;
+}
+
+/* Header Section */
+.details-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin: 2rem 10rem;
+    padding: 1.5rem;
+    background-color: #fff;
+    border-radius: 3px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.details-image {
+    width: 450px;
+    height: 450px;
+    border-radius: 8px;
+}
+
+/* Information Section */
+.details-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 2rem;
+}
+
+.details-title {
+    font-size: 1.5rem;
+    line-height: 24px;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.details-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.details-rating .stars {
+    display: flex;
+}
+
+.details-rating .star {
+    font-size: 0.5rem;
+    color: #ddd;
+}
+
+.details-rating .star.filled {
+    color: #ff9800;
+}
+
+.details-rating .average-rating {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Price Section */
+.details-price {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #EE4D2D;
+    margin: 1.5rem;
+}
+
+.details-rating .sold {
+    font-size: 1.1rem;
+    color: #222222; /* Change the color to black */
+    margin-left: 1rem;
+}
+
+.details-rating .rating1{
+    font-size: 1.1rem;
+    color: #222222; /* Change the color to black */
+    margin-left: 1rem;
+}
+
+.details-rating .rating1 .ratings-count{
+    margin-left: 1rem;
+}
+
+.details-rating .sold .sold-count {
+    margin-left: 1rem;
+}
+
+.details-rating .sold .sold-text {
+    color: #767676; /* Change the color of the word "Sold" */
+    font-size: 1rem;
+}
+
+.details-rating .rating1 .rating-text{
+    color: #767676; /* Change the color of the word "Sold" */
+    font-size: 1rem;
+}
+
+/* Action Buttons */
+.details-actions {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem;
+}
+
+.details-actions button {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 3px;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex; /* Add flexbox properties */
+    align-items: center; /* Center items vertically */
+    justify-content: center; /* Center items horizontally */
+}
+
+.add-to-cart1 {
+    color: #EE4D2D;
+}
+
+.buy-now1 {
+    background-color: #EE4D2D;
+    color: #fff;
+    border: 1px solid white;
+}
+
+.product-description {
+    white-space: pre-line; /* Preserve newlines and whitespace */
+  }
+
+
+/* Additional Sections */
+
+
+.details-specs,
+.details-description,
+.details-reviews {
+    margin: 2rem 10rem;
+    padding: 1.5rem;
+    background-color: #fff;
+    border-radius: 3px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+}
+.details-reviews h2{
+    font-size: 1.2rem;
+    font-weight: normal;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+
+.details-specs h2{
+    font-size: 1.2rem;
+    font-weight: normal;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.details-specs ul {
+    list-style: none;
+    padding: 0;
+}
+
+.details-specs li {
+    display: flex;
+    justify-content: space-between; /* Space between label and value */
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.details-specs li label {
+    color: #999999; /* Label color */
+    flex: 1; /* Allow label to take up available space */
+    text-align: left; /* Align label to the left */
+}
+
+.details-specs li span {
+    color: #333333; /* Default value color */
+    flex: 9; /* Allow value to take up available space */
+    text-align: left; /* Align value to the left */
+}
+
+.details-specs li span.category-name {
+    color: #0055AA; /* Category name color */
+}
+
+.details-specs li span.stock-quantity {
+    color: #333333; /* Stock quantity color */
+}
+
+.details-description h2{
+    font-size: 1.2rem;
+    font-weight: normal;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.ratings-summary {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+}
+
+.ratings-filter button {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    cursor: pointer;
+}
+.reviews-header {
+    background-color: #fffbf8; /* Add background color */
+    padding: 1rem;
+    border-radius: 5px;
+    border: 1px solid #f9ede5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ratings-summary {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.ratings-summary .average-rating {
+    font-size: 1.875rem; /* Top rating size */
+    font-weight: bold;
+    color: #EE4D2D;
+}
+
+.ratings-summary .average-rating span {
+    font-size: 1.125rem; /* "out of 5" size */
+    color: #EE4D2D;
+}
+
+.ratings-summary .stars {
+    display: flex;
+    gap: 0; /* Remove gap between stars */
+    margin-top: 0.25rem; /* Reduce margin between rating and stars */
+}
+
+.ratings-summary .star {
+    font-size: 28px; /* Star size */
+    color: #ddd; /* Default star color */
+}
+
+.ratings-summary .star.filled {
+    color: #EE4D2D; /* Filled star color */
+}
+
+.ratings-filter {
+    display: flex;
+    align-items: center;
+    margin-top: 0.5rem; /* Adjust margin as needed */
+}
+
+.ratings-filter button {
+    padding: 0.75rem 2rem;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    background-color: #fff;
+    cursor: pointer;
+    margin-right: 0.5rem;
+}
+
+.ratings-filter button.selected {
+    border-color: #EE4D2D; /* Border color for selected button */
+    background-color: #fff; /* Background color for selected button */
+    color: #EE4D2D; /* Text color for selected button */
+}
+
+.review-item {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    border-bottom: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between; /* Space between user name and delete button */
+    align-items: center; /* Align items vertically */
+    margin-bottom: 0.5rem;
+}
+
+.review-delete-button {
+    background-color: transparent;
+    border: none; /* No border */
+    color: #0055AA; /* Text color */
+    cursor: pointer;
+    padding: 0; /* Remove padding */
+    font-size: .90rem; /* Adjust font size if needed */
+}
+
+.review-user {
+    font-weight: bold;
+    color: #333332;
+}
+
+.review-stars {
+    display: flex;
+    margin: 0.5rem 0;
+}
+
+.review-stars .star {
+    font-size: 20px;
+    color: #ddd;
+}
+
+.review-stars .star.filled {
+    color: #EE4D2D;
+}
+
+.review-date,
+.review-performance,
+.review-suitability {
+    color: #757573;
+    margin: 0.25rem 0; 
+}
+
+.review-comments {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    gap: 0.25rem; /* Consistent vertical spacing */
+}
+.review-comment{
+    margin-top: 0.50rem;
+}
+
+.review-performance,
+.review-suitability {
+    display: flex;
+    align-items: center;
+    color: #757573; /* Set the label color to #757573 */
+}
+
+.review-performance span,
+.review-suitability span {
+    color: #333332; /* Set the value color to #333332 */
+    margin-left: 0.25rem; /* Add some space between the label and value */
+}
+
+.no-reviews {
+    text-align: center;
+    margin: 10rem 0;
+}
+
+.no-reviews img {
+    width: 150px;
+    height: auto;
+    margin-bottom: 1rem;
+}
+
+.no-reviews p {
+    font-size: 1.2rem;
+    color: #757575;
+}
+
+/* Responsive styles for mobile devices */
+@media screen and (max-width: 600px) {
+  .details-header {
+    flex-direction: column;
+    align-items: center;
+    margin: 0.5rem 0.2rem;
+    padding: 0.5rem;
+    gap: 10px;
+  }
+
+  .details-image {
+    width: 90vw;
+    max-width: 350px;
+    height: 40vw;
+    max-height: 220px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .details-info {
+    padding: 0.5rem 0.5rem;
+    width: 100%;
+  }
+
+  .details-title {
+    font-size: 1.1rem;
+    line-height: 1.3;
+    text-align: left;
+    margin-bottom: 0.5rem;
+  }
+
+  .details-rating {
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    font-size: 0.95rem;
+  }
+
+  .details-rating .average-rating {
+    font-size: 1rem;
+  }
+
+  .details-price {
+    font-size: 1.3rem;
+    margin: 1rem 0;
+    text-align: left;
+  }
+
+  .details-actions {
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 0.5rem 0;
+    width: 100%;
+  }
+
+  .details-actions button {
+    width: 100%;
+    font-size: 0.95rem;
+    padding: 0.7rem 0;
+  }
+
+  /* Sections below the header */
+  .details-specs,
+  .details-description,
+  .details-reviews {
+    margin: 0.5rem 0.2rem;
+    padding: 0.8rem;
+    font-size: 0.98rem;
+  }
+
+  .details-specs h2,
+  .details-description h2,
+  .details-reviews h2 {
+    font-size: 1rem;
+    margin-bottom: 0.7rem;
+  }
+
+  .details-specs li {
+    font-size: 0.98rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  .details-specs li label,
+  .details-specs li span {
+    text-align: left;
+    font-size: 0.98rem;
+  }
+
+  .reviews-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.7rem;
+    padding: 0.7rem 0.2rem;
+  }
+
+  .ratings-summary .average-rating {
+    font-size: 1.2rem;
+  }
+
+  .ratings-summary .star {
+    font-size: 20px;
+  }
+
+  .ratings-filter button {
+    padding: 0.4rem 0.7rem;
+    font-size: 0.9rem;
+  }
+
+  .review-item {
+    padding: 0.7rem;
+    font-size: 0.98rem;
+  }
+
+  .no-reviews {
+    margin: 3rem 0;
+  }
+
+  .no-reviews img {
+    width: 90px;
+  }
+}

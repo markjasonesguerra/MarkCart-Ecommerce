@@ -1,0 +1,42 @@
+.succes5-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .succes5-modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+  }
+  
+  .succes5-success-gif {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 20px;
+  }
+  
+  .succes5-close-button {
+    margin-top: 20px;
+    background-color: #ff450c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .succes5-close-button:hover {
+    background-color: #e64a19;
+  }

@@ -1,0 +1,17 @@
+[build]
+  base    = "frontend"
+  command = "npm run build"
+  publish = "build"
+  functions = "../backend"
+
+[build.environment]
+  CI = "false"
+
+[functions]
+  directory = "netlify/functions"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/index/:splat"
+  status = 200
+  force = true

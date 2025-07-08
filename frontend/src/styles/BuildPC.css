@@ -1,0 +1,35 @@
+.buildpc-container {
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #18191c;
+}
+
+/* default: show desktop only */
+.desktop-img {
+  display: block;
+  height: 85vh;
+  width: auto;
+  max-width: 98vw;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+.mobile-img {
+  display: none;
+}
+
+/* mobile: hide desktop, show mobile */
+@media screen and (max-width: 480px) {
+  .desktop-img {
+    display: none;
+  }
+  .mobile-img {
+    display: block;
+    height: 85vh;
+    width: auto;
+    max-width: 98vw;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+  }
+}

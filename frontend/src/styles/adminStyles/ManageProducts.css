@@ -1,0 +1,496 @@
+.manage-products {
+    padding: 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: #fff;
+    padding: 20px;
+}
+
+.header h2{
+    font-weight: 100;
+    line-height: 20px;
+}
+
+.header-inventory {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align "My Inventory" to the left */
+    margin-bottom: 20px;
+    background-color: #fff;
+    padding: 20px;
+}
+
+.header-inventory h2{
+    font-weight: 100;
+    line-height: 20px;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-bar {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 200px;
+}
+ 
+  .add-product-button  {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    margin-left: 10px;
+    background-color: #EE4D2D;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+  }
+
+  .add-product-button  .button-icon {
+    margin-right: 8px;
+    height: 24px;
+    width: 24px;
+  }
+
+.add-product-button:hover {
+    background-color: #e64a19;
+}
+
+.product-list {
+    border-top: 1px solid #ddd;
+    width: 100%;
+    background-color: #fff;
+}
+
+.product-list-header {
+    display: grid;
+    grid-template-columns: 4fr 1.5fr 1fr 1fr 1fr; /* Adjust column widths proportionally */
+    padding: 10px 20px; /* Consistent padding for header */
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+    text-align: center; /* Center-align header text */
+    background-color: #F6F6F6;
+}
+
+.product-item {
+    display: grid;
+    grid-template-columns: 4fr 1.5fr 1fr 1fr 1fr; /* Match header columns */
+    align-items: center;
+    padding: 10px 20px; /* Consistent padding for items */
+    border-bottom: 1px solid #f0f0f0;
+    text-align: center; /* Center-align item text */
+}
+
+
+.product-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: flex-start; /* Ensure alignment within the first column */
+}
+
+.product-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.no-image {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    color: #999;
+    font-size: 12px;
+}
+
+.product-info h3 {
+    font-size: 14px;
+    margin: 0;
+    line-height: 1.2; /* Line height to control spacing */
+    display: -webkit-box; /* Enable the use of webkit-line-clamp */
+    -webkit-line-clamp: 2; /* Limit the text to 2 lines */
+    -webkit-box-orient: vertical; /* Set the box orientation to vertical */
+    overflow: hidden; /* Hide overflowing text */
+    text-overflow: ellipsis; /* Add ellipsis for overflow */
+    text-align: left; /* Align text to the left */
+}
+
+.product-info p {
+    font-size: 12px;
+    margin: 0;
+    color: #666;
+    text-align: left; /* Align ID to the left */
+}
+
+.product-actions {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    justify-content: center; /* Center elements vertically */
+    align-items: center; /* Center elements horizontally */
+    gap: 10px; /* Add spacing between buttons */
+}
+
+.edit-button,
+.delete-button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center; /* Ensure button text is centered */
+}
+
+.edit-button {
+    color: #0055AA;
+    text-decoration: none;
+}
+
+.edit-button:hover {
+    text-decoration: none;
+}
+
+.delete-button {
+    background-color: transparent;
+    color: #f44336;
+    text-decoration: none;
+}
+
+.delete-button:hover {
+    background-color: #f44336;
+    color: #fff;
+    text-decoration: none;
+}
+
+.inventory-container {
+    width: 100%;
+    display: flex;
+    justify-content: center; /* Center the inventory actions */
+    background-color: #fff;
+}
+
+.inventory-actions {
+    display: flex;
+    gap: 50px;
+}
+
+.inventory-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    padding: 40px;
+}
+
+.inventory-number {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.inventory-item span:first-child {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.low-stock-alert {
+    max-width: 600px;
+    background-color: #ffffff;
+    border-top: 3px solid #F44336; /* 3px border on top */
+    border-right: 1px solid #F44336; /* 1px border on right */
+    border-bottom: 1px solid #F44336; /* 1px border on bottom */
+    border-left: 1px solid #F44336; /* 1px border on left */
+    padding: 15px;
+    margin: 0 auto 20px auto; /* Center the alert horizontally */
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center elements horizontally */
+
+}
+
+.low-stock-alert h2 {
+    margin: 0 0 10px 0; /* Add bottom margin for spacing */
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    color: #F44336;
+    text-align: center; /* Center the text */
+}
+
+.low-stock-alert .warning-icon {
+    margin-right: 10px;
+    width: 24px;
+    height: 24px;
+}
+
+.low-stock-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); /* Responsive grid layout */
+    gap: 10px; /* Add spacing between grid items */
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%; /* Ensure the list takes full width */
+}
+
+.low-stock-list li {
+    margin-bottom: 5px;
+    cursor: pointer;
+    color: #F44336;
+    text-align: left; /* Align text to the left */
+    padding: px;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+.low-stock-list li:hover {
+    text-decoration: underline;
+}
+
+.low-stock-item {
+    display: grid;
+    grid-template-columns: 1fr auto; /* Two columns: product name and quantity */
+    gap: 80px; /* Add spacing between columns */
+}
+
+.product-name {
+    font-weight: normal;
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide overflow */
+    text-overflow: ellipsis; /* Show ellipsis for overflow text */
+}
+
+
+.product-quantity {
+    text-align: right; /* Align quantity to the right */
+}
+
+
+.out-of-stock-icon {
+    margin-left: 8px;
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+}
+
+.highlight {
+    background-color: #ffff99; /* Highlight color */
+    transition: background-color 0.5s ease;
+}
+/*Add newe item*/
+.formAdd1-container {
+    max-width: 800px; /* Adjust the max-width as needed */
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the form container */
+}
+
+.formAdd1-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.formAdd1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the form elements */
+    gap: 15px;
+    width: 100%; /* Make the form take full width */
+    max-width: 700px; /* Set a max-width for the form */
+}
+
+.formAdd1 label {
+    align-self: flex-start; /* Align labels to the start */
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #535353;
+}
+
+.formAdd1 input,
+.formAdd1 textarea,
+.formAdd1 select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 100%; /* Make the input fields take full width */
+}
+
+.formAdd1 textarea {
+    resize: vertical;
+    height: 100px;
+}
+
+.formAdd1 button {
+    padding: 10px 20px;
+    background-color: #ff5722;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.formAdd1 button:hover {
+    background-color: #e64a19;
+}
+
+.image-preview-add {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center; /* Center the image previews */
+}
+
+.image-container {
+    position: relative;
+    display: inline-block;
+}
+
+.image-preview-add img {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+.removeImage-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(255, 0, 0, 0.7);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    line-height: 1;
+}
+
+.button-group .productCancel-button {
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    background-color: #F0F0F0;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    color: #333;
+}
+
+.button-group .productCancel-button:hover {
+    background-color: #e4e4e4;
+}
+
+.prod-modal-overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .prod-modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: left;
+    max-width: 400px;
+    width: 100%;
+  }
+  
+  .prod-modal-product-info {
+    display: flex;
+    align-items: center;
+    margin: 20px;
+}
+
+.prod-modal-product-title {
+    flex: 1;
+    text-align: left;
+    margin-right: 10px;
+}
+
+.prod-modal-product-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-right: 20px;
+}
+
+  .prod-modal-actions {
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the right */
+    margin-top: 20px;
+    gap: 10px; /* Add spacing between buttons */
+  }
+
+  .prod-cancel-button3 {
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    background-color: #F0F0F0;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    color: #333;
+  }
+  
+  .prod-cancel-button3:hover {
+    background-color: #e4e4e4;
+  }
+  
+  .prod-confirm-button3 {
+    padding: 10px 20px;
+    background-color: #EE4D2D;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .prod-confirm-button3:hover {
+    background-color: #e64a19;
+  }
+
+  .success-message {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
