@@ -225,7 +225,7 @@ const Login = ({ setUser }) => {
                         </button>
                     </div>
                     <p className="signup">
-                        New to Tekko? <a href="/signup"><span className="signup-login">Sign Up</span ></a>
+                        New to Mark Cart? <a href="/signup"><span className="signup-login">Sign Up</span ></a>
                     </p>
                 </div>
             </div>

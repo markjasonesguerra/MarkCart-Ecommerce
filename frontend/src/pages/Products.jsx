@@ -128,8 +128,23 @@ const Products = ({ user, setUser }) => {
                     sortOption, // Include sorting option
                 },
             });
-            //console.log("API Response:", res.data);
-            setFilteredProducts(res.data);
+            // Parse images for each product
+            const productsWithParsedImages = res.data.map(product => {
+                let images = [];
+                if (product.images) {
+                    try {
+                        if (typeof product.images === "string") {
+                            images = JSON.parse(product.images.replace(/\\/g, "/"));
+                        } else if (Array.isArray(product.images)) {
+                            images = product.images;
+                        }
+                    } catch (err) {
+                        console.error("Error parsing images for product:", product, err);
+                    }
+                }
+                return { ...product, images };
+            });
+            setFilteredProducts(productsWithParsedImages);
             setCurrentPage(1);
         } catch (err) {
             console.error("Error filtering products:", err);
