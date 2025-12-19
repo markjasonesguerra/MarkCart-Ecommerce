@@ -123,6 +123,11 @@ const ManageUsers = () => {
     }
 };
 
+  const handleEditSubmit = async (e) => {
+    e.preventDefault();
+    await handleEditSave();
+  };
+
   const filteredUsers = users.filter(user =>
     user.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -150,66 +155,106 @@ const ManageUsers = () => {
       </div>
       {editingUser && (
         <div className="edit-form" ref={editSectionRef}>
-          <h3>Edit User</h3>
-          <label htmlFor="name">Name</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={editFormData.name}
-            onChange={handleEditChange}
-            placeholder="Enter Name"
-          />
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={editFormData.email}
-            onChange={handleEditChange}
-            placeholder="Enter Email"
-          />
-          <label htmlFor="phoneNumber">Phone Number</label>
-          <input
-            type="text"
-            id="phoneNumber"
-            name="phoneNumber"
-            value={editFormData.phoneNumber}
-            onChange={handleEditChange}
-            placeholder="Enter Phone Number"
-          />
-          <label htmlFor="role">Role</label>
-          <select
-            id="role"
-            name="role"
-            value={editFormData.role}
-            onChange={handleEditChange}
-          >
-            <option value="Admin">Admin</option>
-            <option value="Customer">Customer</option>
-          </select>
-          <label htmlFor="gender">Gender</label>
-          <input
-            type="text"
-            id="gender"
-            name="gender"
-            value={editFormData.gender}
-            onChange={handleEditChange}
-            placeholder="Enter Gender"
-          />
-          <label htmlFor="birthday">Birthday</label>
-          <input
-            type="date"
-            id="birthday"
-            name="birthday"
-            value={editFormData.birthday}
-            onChange={handleEditChange}
-            placeholder="Enter Birthday"
-          />
-          <div className="button-group">
-            <button onClick={handleEditSave} className="user-save-button">Save</button>
-            <button onClick={() => setEditingUser(null)} className="user-cancel-button">Cancel</button>
+          <div className="edit-form-header">
+            <div>
+              <p className="edit-kicker">Directory / Edit</p>
+              <h3 className="edit-title">Edit User</h3>
+              <p className="edit-subtitle">Update identity, contact info, and permissions.</p>
+            </div>
+            <div className="edit-meta">
+              <div className="edit-pill">
+                <span className="pill-label">User ID</span>
+                <span className="pill-value">#{editingUser}</span>
+              </div>
+              <div className={`role-chip ${editFormData.role === "Admin" ? "is-admin" : "is-customer"}`}>
+                {editFormData.role || "Role"}
+              </div>
+            </div>
           </div>
+
+          <form className="edit-form-grid" onSubmit={handleEditSubmit}>
+            <div className="edit-column">
+              <div className="edit-field">
+                <label htmlFor="name">Full name</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={editFormData.name}
+                  onChange={handleEditChange}
+                  placeholder="Enter full name"
+                />
+              </div>
+
+              <div className="edit-field">
+                <label htmlFor="email">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={editFormData.email}
+                  onChange={handleEditChange}
+                  placeholder="Enter email address"
+                />
+              </div>
+
+              <div className="edit-field">
+                <label htmlFor="phoneNumber">Phone number</label>
+                <input
+                  type="text"
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  value={editFormData.phoneNumber}
+                  onChange={handleEditChange}
+                  placeholder="Enter phone number"
+                />
+              </div>
+            </div>
+
+            <div className="edit-column">
+              <div className="edit-field">
+                <label htmlFor="role">Role</label>
+                <select
+                  id="role"
+                  name="role"
+                  value={editFormData.role}
+                  onChange={handleEditChange}
+                >
+                  <option value="Admin">Admin</option>
+                  <option value="Customer">Customer</option>
+                </select>
+              </div>
+
+              <div className="edit-field">
+                <label htmlFor="gender">Gender</label>
+                <input
+                  type="text"
+                  id="gender"
+                  name="gender"
+                  value={editFormData.gender}
+                  onChange={handleEditChange}
+                  placeholder="Enter gender"
+                />
+              </div>
+
+              <div className="edit-field">
+                <label htmlFor="birthday">Birthday</label>
+                <input
+                  type="date"
+                  id="birthday"
+                  name="birthday"
+                  value={editFormData.birthday}
+                  onChange={handleEditChange}
+                  placeholder="Enter birthday"
+                />
+              </div>
+            </div>
+
+            <div className="edit-actions">
+              <button type="button" onClick={() => setEditingUser(null)} className="user-cancel-button">Cancel</button>
+              <button type="submit" className="user-save-button">Save changes</button>
+            </div>
+          </form>
         </div>
       )}
 

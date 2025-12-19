@@ -348,10 +348,25 @@ router.get('/low-stock', async (req, res) => {
     const threshold = req.query.threshold || 10;
     try {
         const [data] = await db.query(q, [threshold]);
+
+        // Parse stored image JSON into arrays for the client
+        data.forEach((product) => {
+            if (typeof product.images === 'string') {
+                try {
+                    product.images = JSON.parse(product.images.replace(/\\/g, '/'));
+                } catch (err) {
+                    console.warn('Invalid JSON in product.images:', product.images);
+                    product.images = [];
+                }
+            } else if (!Array.isArray(product.images)) {
+                product.images = [];
+            }
+        });
+
         res.json(data);
     } catch (err) {
         console.error("Error fetching low stock products:", err);
-        res.status500().json(err);
+        res.status(500).json({ error: "Failed to fetch low stock products" });
     }
 });
 

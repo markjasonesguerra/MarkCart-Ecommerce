@@ -169,48 +169,100 @@ const ManageCategories = () => {
             </div>
             {editingCategory && (
                 <div className="edit-category-form" ref={editSectionRef}>
-                    <h2>Edit Category</h2>
-                    <input
-                        type="text"
-                        placeholder="Category Name"
-                        value={updatedCategory.name}
-                        onChange={handleUpdateChange}
-                        name="name"
-                    />
-                    <input
-                        type="text"
-                        placeholder="Category Description"
-                        value={updatedCategory.description}
-                        onChange={handleUpdateChange}
-                        name="description"
-                    />
-                    <select
-                        value={updatedCategory.parentCategoryID}
-                        onChange={handleUpdateChange}
-                        name="parentCategoryID"
-                    >
-                        <option value="">Main Category</option>
-                        {categories.filter(cat => !cat.parentCategoryID).map((cat) => (
-                            <option key={cat.categoryID} value={cat.categoryID}>{cat.name}</option>
-                        ))}
-                    </select>
-                    {previewImage && (
-                        <div className="current-image">
-                            <img src={previewImage} alt={editingCategory.name} className="categoryImage-preview" />
-                            <button className="remove-image-button" onClick={handleRemoveImage}>
-                                X
-                            </button>
+                    <div className="cat-form-header">
+                        <div>
+                            <p className="cat-kicker">Catalog / Edit</p>
+                            <h2 className="cat-title">Edit Category</h2>
+                            <p className="cat-subtitle">Update name, hierarchy, and imagery in one place.</p>
                         </div>
-                    )}
-                    <input
-                        type="file"
-                        onChange={handleUpdateImageChange}
-                        name="image"
-                    />
-                    <div className="edit-category-actions">
-                        <button onClick={handleUpdateClick}>Update Category</button>
-                        <button className="cat-edit-button" onClick={handleCancelEdit}>Cancel</button>
+                        <div className="cat-pill">
+                            <span className="cat-pill-label">Category ID</span>
+                            <span className="cat-pill-value">{editingCategory.categoryID}</span>
+                        </div>
                     </div>
+
+                    <form className="cat-form" onSubmit={handleUpdateClick}>
+                        <div className="cat-grid">
+                            <div className="cat-card">
+                                <div className="cat-field">
+                                    <label htmlFor="cat-name">Name</label>
+                                    <input
+                                        id="cat-name"
+                                        type="text"
+                                        placeholder="e.g., Laptops & Computers"
+                                        value={updatedCategory.name}
+                                        onChange={handleUpdateChange}
+                                        name="name"
+                                    />
+                                    <span className="cat-hint">Keep it clear and searchable.</span>
+                                </div>
+
+                                <div className="cat-field">
+                                    <label htmlFor="cat-description">Description</label>
+                                    <textarea
+                                        id="cat-description"
+                                        placeholder="Short summary to guide shoppers"
+                                        value={updatedCategory.description}
+                                        onChange={handleUpdateChange}
+                                        name="description"
+                                    />
+                                </div>
+
+                                <div className="cat-field">
+                                    <label htmlFor="cat-parent">Parent Category</label>
+                                    <select
+                                        id="cat-parent"
+                                        value={updatedCategory.parentCategoryID}
+                                        onChange={handleUpdateChange}
+                                        name="parentCategoryID"
+                                    >
+                                        <option value="">Main Category</option>
+                                        {categories.filter(cat => !cat.parentCategoryID && cat.categoryID !== editingCategory.categoryID).map((cat) => (
+                                            <option key={cat.categoryID} value={cat.categoryID}>{cat.name}</option>
+                                        ))}
+                                    </select>
+                                    <span className="cat-hint">Nest under an existing category if needed.</span>
+                                </div>
+                            </div>
+
+                            <div className="cat-card media">
+                                <div className="cat-media-header">
+                                    <div>
+                                        <h3>Category Image</h3>
+                                        <p>Use a clean, square image.</p>
+                                    </div>
+                                    <div className="cat-badge">{previewImage ? '1 image' : 'No image'}</div>
+                                </div>
+
+                                {previewImage && (
+                                    <div className="cat-current-image">
+                                        <img src={previewImage} alt={editingCategory.name} className="categoryImage-preview" />
+                                        <button type="button" className="remove-image-button" onClick={handleRemoveImage}>
+                                            X
+                                        </button>
+                                    </div>
+                                )}
+
+                                <label htmlFor="cat-image" className="cat-dropzone">
+                                    <div>
+                                        <p className="dropzone-title">Drag & drop or click to upload</p>
+                                        <p className="dropzone-hint">PNG or JPG, square works best</p>
+                                    </div>
+                                    <input
+                                        id="cat-image"
+                                        type="file"
+                                        onChange={handleUpdateImageChange}
+                                        name="image"
+                                        accept="image/*"
+                                    />
+                                </label>
+                            </div>
+                        </div>
+                        <div className="cat-actions">
+                            <button type="button" className="cat-edit-button" onClick={handleCancelEdit}>Cancel</button>
+                            <button type="submit" className="cat-primary">Update Category</button>
+                        </div>
+                    </form>
                 </div>
             )}
             <div className="categoryList">

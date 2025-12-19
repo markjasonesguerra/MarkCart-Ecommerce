@@ -183,83 +183,192 @@
   }
   
   .edit-form {
-    background: linear-gradient(135deg, #ffffff, #fff);
-    padding: 30px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    margin: 30px auto;
-    max-width: 600px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .edit-form h3 {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 24px;
-    color: #333;
-  }
-  
-  .edit-form label {
-    font-size: 14px;
-    font-weight: bold;
-    margin-bottom: 8px;
-    display: block;
-    color: #555;
-  }
-  
-  .edit-form input,
-  .edit-form select {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 20px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 14px;
-    background-color: #f9f9f9;
-    transition: border-color 0.3s ease;
-  }
-  
-  .edit-form input:focus,
-  .edit-form select:focus {
-    border-color: #0055aa;
-    outline: none;
-  }
-  
-  .button-group {
-    display: flex;
-    justify-content: center;
-    gap: 10px; /* Add spacing between buttons */
-  }
-  
-  .button-group button {
-    padding: 10px 20px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .user-save-button {
-    background-color: #ff5722;
-    color: #fff;
+    background: linear-gradient(135deg, #ffffff, #f9fbff);
+    padding: 20px;
+    border: 1px solid #e7e7e7;
+    border-radius: 10px;
+    margin: 24px auto;
+    max-width: 705px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
   }
 
-    .user-save-button:hover {
-        background-color: rgb(238, 68, 56);
-        color: #fff;
+  .edit-form-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1px;
+    margin-bottom: 20px;
+  }
+
+  .edit-kicker {
+    font-size: 12px;
+    color: #8a8a8a;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 0 0 4px 0;
+  }
+
+  .edit-title {
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .edit-subtitle {
+    margin: 6px 0 0 0;
+    color: #666;
+  }
+
+  .edit-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .edit-pill {
+    background: linear-gradient(135deg, #fdf3e7, #ffe7d9);
+    padding: 10px 14px;
+    border-radius: 12px;
+    display: inline-flex;
+    flex-direction: column;
+    min-width: 120px;
+    border: 1px solid #ffd3b5;
+  }
+
+  .pill-label {
+    font-size: 11px;
+    color: #a55b28;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .pill-value {
+    font-weight: 700;
+    color: #d44416;
+  }
+
+  .role-chip {
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 13px;
+    border: 1px solid #e9e9e9;
+  }
+
+  .role-chip.is-admin {
+    background: #fff2f0;
+    color: #d4380d;
+    border-color: #ffd8bf;
+  }
+
+  .role-chip.is-customer {
+    background: #f0f7ff;
+    color: #1d39c4;
+    border-color: #adc6ff;
+  }
+
+  .edit-form-grid {
+    display: grid;
+      grid-template-columns: minmax(360px, 1.1fr) minmax(280px, 0.9fr);
+      gap: 14px 16px;
+      padding: 8px 0 6px 0;
+  }
+
+  .edit-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 4px;
+    margin-bottom: 6px;
+  }
+
+    .edit-field.right-col {
+      grid-column: 2;
     }
-  
+
+  .edit-field label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+  }
+
+  .edit-field input,
+  .edit-field select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #dedede;
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: #fbfbfb;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .edit-field input:focus,
+  .edit-field select:focus {
+    outline: none;
+    border-color: #ee4d2d;
+    box-shadow: 0 0 0 3px rgba(238, 77, 45, 0.15);
+  }
+
+  .edit-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 6px;
+  }
+
+  .user-save-button {
+    padding: 10px 20px;
+    background-color: #ee4d2d;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+  }
+
+  .user-save-button:hover {
+    background-color: #d64225;
+  }
+
+  .user-save-button:active {
+    transform: translateY(1px);
+  }
+
   .user-cancel-button {
     padding: 10px 20px;
-    border: 1px solid #ddd;
-    background-color: #F0F0F0;
-    border-radius: 4px;
+    border: 1px solid #dcdcdc;
+    background-color: #fafafa;
+    border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.2s ease;
     color: #333;
   }
 
-    .user-cancel-button:hover {
-        background-color: #e4e4e4;
+  .user-cancel-button:hover {
+    background-color: #f0f0f0;
+  }
+
+  @media (max-width: 720px) {
+    .edit-form-header {
+      flex-direction: column;
+      align-items: flex-start;
     }
+
+    .edit-meta {
+      width: 100%;
+    }
+
+    .edit-form-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .edit-field.right-col {
+      grid-column: auto;
+    }
+
+    .edit-actions {
+      justify-content: flex-start;
+    }
+  }
   

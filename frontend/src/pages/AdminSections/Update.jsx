@@ -116,96 +116,157 @@ const Update = () => {
   };
 
   return (
-    <div className="formAdd-container">
-      <h1>Update Product</h1>
-      <form className="formAdd1" onSubmit={handleUpdate}>
-        <label htmlFor="title">Title</label>
-        <input
-          type="text"
-          id="title"
-          placeholder="Title"
-          value={product.title || ""}
-          onChange={handleChange}
-          name="title"
-        />
-        <label htmlFor="description">Description</label>
-        <textarea
-          id="description"
-          placeholder="Description"
-          value={product.description || ""}
-          onChange={handleChange}
-          name="description"
-        />
-        <label htmlFor="price">Price</label>
-        <input
-          type="number"
-          id="price"
-          placeholder="Price"
-          value={product.price || ""}
-          onChange={handleChange}
-          name="price"
-        />
-        <label htmlFor="quantity">Quantity</label>
-        <input
-          type="number"
-          id="quantity"
-          placeholder="Quantity"
-          value={product.quantity || 0}
-          onChange={handleChange}
-          name="quantity"
-        />
-        <label htmlFor="categoryID">Category</label>
-        <select
-          id="categoryID"
-          value={product.categoryID || ""}
-          onChange={handleChange}
-          name="categoryID"
-        >
-          <option value="">Select Category</option>
-          {categories.map((category) => (
-            <option key={category.categoryID} value={category.categoryID}>
-              {category.name}
-            </option>
-          ))}
-        </select>
-        <label htmlFor="discount">Discount</label>
-        <input
-          type="number"
-          id="discount"
-          placeholder="Discount"
-          value={product.discount || 0.0}
-          onChange={handleChange}
-          name="discount"
-        />
-        <label htmlFor="images">Images</label>
-        <input
-          type="file"
-          id="images"
-          multiple
-          onChange={handleImageChange}
-          accept="image/*"
-        />
-        <div className="image-preview-add">
-          {existingImages.map((src, index) => (
-            <div key={index} className="image-container">
-              <img src={`${API_BASE_URL}/${src}`} alt={`Existing ${index}`} />
-              <button type="button" className="removeImage-button" onClick={() => handleRemoveImage(index, true)}>X</button>
-            </div>
-          ))}
-          {previewImages.map((src, index) => (
-            <div key={index} className="image-container">
-              <img src={src} alt={`Preview ${index}`} />
-              <button type="button" className="removeImage-button" onClick={() => handleRemoveImage(index)}>X</button>
-            </div>
-          ))}
+    <div className="update-product-page">
+      <div className="formAdd-header">
+        <div>
+          <p className="formAdd-kicker">Inventory / Edit</p>
+          <h1 className="formAdd-title">Update Product</h1>
+          <p className="formAdd-subtitle">Refine details, adjust pricing, and refresh media in one place.</p>
         </div>
-        <div className="button-group">
-          <button type="submit">Update Product</button>
+        <div className="formAdd-pill">
+          <span className="pill-label">Product ID</span>
+          <span className="pill-value">{id}</span>
+        </div>
+      </div>
+
+      <form className="formAdd1 update-form" onSubmit={handleUpdate}>
+        <div className="formAdd-grid">
+          <div className="form-card">
+            <div className="form-row">
+              <div className="form-field">
+                <label htmlFor="title">Title</label>
+                <input
+                  type="text"
+                  id="title"
+                  placeholder="Product name"
+                  value={product.title || ""}
+                  onChange={handleChange}
+                  name="title"
+                />
+                <span className="field-hint">Keep it short and searchable.</span>
+              </div>
+              <div className="form-field">
+                <label htmlFor="categoryID">Category</label>
+                <select
+                  id="categoryID"
+                  value={product.categoryID || ""}
+                  onChange={handleChange}
+                  name="categoryID"
+                >
+                  <option value="">Select Category</option>
+                  {categories.map((category) => (
+                    <option key={category.categoryID} value={category.categoryID}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+                <span className="field-hint">Organize for filters and SEO.</span>
+              </div>
+            </div>
+
+            <div className="form-field">
+              <label htmlFor="description">Description</label>
+              <textarea
+                id="description"
+                placeholder="What makes this product great?"
+                value={product.description || ""}
+                onChange={handleChange}
+                name="description"
+              />
+            </div>
+
+            <div className="form-row">
+              <div className="form-field">
+                <label htmlFor="price">Price</label>
+                <input
+                  type="number"
+                  id="price"
+                  placeholder="0.00"
+                  value={product.price || ""}
+                  onChange={handleChange}
+                  name="price"
+                  min="0"
+                  step="0.01"
+                />
+              </div>
+              <div className="form-field">
+                <label htmlFor="discount">Discount (%)</label>
+                <input
+                  type="number"
+                  id="discount"
+                  placeholder="0"
+                  value={product.discount || 0.0}
+                  onChange={handleChange}
+                  name="discount"
+                  min="0"
+                  step="0.1"
+                />
+              </div>
+              <div className="form-field">
+                <label htmlFor="quantity">Quantity</label>
+                <input
+                  type="number"
+                  id="quantity"
+                  placeholder="0"
+                  value={product.quantity || 0}
+                  onChange={handleChange}
+                  name="quantity"
+                  min="0"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="media-card">
+            <div className="media-card-header">
+              <div>
+                <h3>Product Media</h3>
+                <p>Manage existing photos and add fresh shots.</p>
+              </div>
+              <div className="badge">{existingImages.length + previewImages.length} images</div>
+            </div>
+
+            <label htmlFor="images" className="dropzone">
+              <div>
+                <p className="dropzone-title">Drag & drop or click to upload</p>
+                <p className="dropzone-hint">JPG, PNG up to 5MB each</p>
+              </div>
+              <input
+                type="file"
+                id="images"
+                multiple
+                onChange={handleImageChange}
+                accept="image/*"
+              />
+            </label>
+
+            <div className="image-preview-add">
+              {existingImages.map((src, index) => (
+                <div key={`existing-${index}`} className="image-container">
+                  <img src={`${API_BASE_URL}/${src}`} alt={`Existing ${index}`} />
+                  <button type="button" className="removeImage-button" onClick={() => handleRemoveImage(index, true)}>X</button>
+                  <span className="image-pill">Existing</span>
+                </div>
+              ))}
+              {previewImages.map((src, index) => (
+                <div key={`preview-${index}`} className="image-container">
+                  <img src={src} alt={`Preview ${index}`} />
+                  <button type="button" className="removeImage-button" onClick={() => handleRemoveImage(index)}>Remove</button>
+                  <span className="image-pill fresh">New</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="button-group sticky-actions">
           <button type="button" className="productCancel-button" onClick={handleCancelEdit}>Cancel</button>
+          <button type="submit" className="primary-button">Save Changes</button>
         </div>
       </form>
+
       {successMessage && (
-        <div className="success-message">
+        <div className="success-message elevated">
           {successMessage}
         </div>
       )}

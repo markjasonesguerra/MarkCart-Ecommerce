@@ -74,7 +74,12 @@ const ManageProducts = () => {
     const handleHighlightLowStock = (productID) => {
         const element = document.getElementById(`product-${productID}`);
         if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
+            const headerOffset = 100; // account for fixed top nav/sidebar spacing
+            const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+            const offsetPosition = elementPosition - headerOffset;
+
+            window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+
             element.classList.add('highlight');
             setTimeout(() => {
                 element.classList.remove('highlight');
@@ -133,6 +138,15 @@ const ManageProducts = () => {
                         {lowStockProducts.map((product) => (
                             <li key={product.productID} onClick={() => handleHighlightLowStock(product.productID)}>
                                 <div className="low-stock-item">
+                                    {product.images && product.images.length > 0 ? (
+                                        <img
+                                            src={`${API_BASE_URL}/${product.images[0]}`}
+                                            alt={product.title}
+                                            className="product-thumb"
+                                        />
+                                    ) : (
+                                        <div className="product-thumb no-thumb">No image</div>
+                                    )}
                                     <span className="product-name">{product.title}</span>
                                     <span className="product-quantity">{product.quantity} left</span>
                                 </div>

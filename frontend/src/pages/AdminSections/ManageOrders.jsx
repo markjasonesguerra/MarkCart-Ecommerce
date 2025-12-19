@@ -127,6 +127,41 @@ const ManageOrders = () => {
     { value: "Failed", label: "Failed Payment", icon: unpaid },
   ];
 
+  const formatCurrency = (value) =>
+    `₱${Number(value).toLocaleString('en-PH', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })}`;
+
+  const getStatusTone = (status) => {
+    switch (status) {
+      case "Delivered":
+      case "Completed":
+        return "status-delivered";
+      case "Shipped":
+        return "status-shipped";
+      case "Pending":
+        return "status-pending";
+      case "Cancelled":
+        return "status-cancelled";
+      default:
+        return "status-neutral";
+    }
+  };
+
+  const getPaymentTone = (paymentStatus) => {
+    switch (paymentStatus) {
+      case "Completed":
+        return "status-delivered";
+      case "Pending":
+        return "status-pending";
+      case "Failed":
+        return "status-cancelled";
+      default:
+        return "status-neutral";
+    }
+  };
+
   return (
     <div className="orders-container">
       <div className="header-dashboard">
@@ -275,29 +310,83 @@ const ManageOrders = () => {
       </div>
       {selectedOrder && (
         <div className="modal">
-          <div className="modal-content">
-            <h2>Order Details</h2>
-            <div className="modal-details">
-              <div className="modal-details-labels">
-                <p><strong>Order ID:</strong></p>
-                <p><strong>Customer Name:</strong></p>
-                <p><strong>Total Price:</strong></p>
-                <p><strong>Payment Method:</strong></p>
-                <p><strong>Shipping Channel:</strong></p>
-                <p><strong>Status:</strong></p>
-                <p><strong>Payment Status:</strong></p>
+          <div className="modal-card" role="dialog" aria-modal="true">
+            <div className="modal-header">
+              <div className="modal-title-group">
+                <p className="modal-eyebrow">Order</p>
+                <h3 className="modal-title">#{selectedOrder.orderID}</h3>
               </div>
-              <div className="modal-details-values">
-                <p>{selectedOrder.orderID}</p>
-                <p>{selectedOrder.customerName}</p>
-                <p>₱{Number(selectedOrder.total).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
-                <p>{selectedOrder.paymentMethod}</p>
-                <p>{selectedOrder.shippingChannel}</p>
-                <p>{selectedOrder.status}</p>
-                <p>{selectedOrder.paymentStatus}</p>
+              <div className="modal-badges">
+                <span className={`detail-chip ${getStatusTone(selectedOrder.status)}`}>
+                  {selectedOrder.status}
+                </span>
+                <span className={`detail-chip ${getPaymentTone(selectedOrder.paymentStatus)}`}>
+                  {selectedOrder.paymentStatus}
+                </span>
               </div>
             </div>
-            <button onClick={handleCloseModal} className="modal-close-button">OK</button>
+
+            <div className="modal-body">
+              <div className="modal-grid">
+                <div className="modal-field">
+                  <span className="field-label">Customer</span>
+                  <span className="field-value">{selectedOrder.customerName}</span>
+                </div>
+                <div className="modal-field">
+                  <span className="field-label">Total Price</span>
+                  <span className="field-value">{formatCurrency(selectedOrder.total)}</span>
+                </div>
+                <div className="modal-field">
+                  <span className="field-label">Payment Method</span>
+                  <span className="field-value">{selectedOrder.paymentMethod}</span>
+                </div>
+                <div className="modal-field">
+                  <span className="field-label">Shipping Channel</span>
+                  <span className="field-value">{selectedOrder.shippingChannel}</span>
+                </div>
+                <div className="modal-field">
+                  <span className="field-label">Order Date</span>
+                  <span className="field-value">{selectedOrder.orderDate || "—"}</span>
+                </div>
+                <div className="modal-field">
+                  <span className="field-label">Payment Status</span>
+                  <span className={`detail-chip ${getPaymentTone(selectedOrder.paymentStatus)}`}>
+                    {selectedOrder.paymentStatus}
+                  </span>
+                </div>
+                <div className="modal-field">
+                  <span className="field-label">Order Status</span>
+                  <span className={`detail-chip ${getStatusTone(selectedOrder.status)}`}>
+                    {selectedOrder.status}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {selectedOrder.products && selectedOrder.products.length > 0 && (
+              <div className="modal-products">
+                <div className="modal-products-header">
+                  <h4>Products</h4>
+                  <span>{selectedOrder.products.length} item(s)</span>
+                </div>
+                <div className="modal-products-grid">
+                  {selectedOrder.products.map((product) => (
+                    <div key={product.productID || product.name} className="modal-product-card">
+                      <div className="modal-product-thumb">
+                        <img src={`${API_BASE_URL}/${product.image}`} alt={product.name} />
+                      </div>
+                      <div className="modal-product-meta">
+                        <p className="modal-product-name">{product.name}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div className="modal-actions">
+              <button onClick={handleCloseModal} className="modal-close-button">Close</button>
+            </div>
           </div>
         </div>
       )}
