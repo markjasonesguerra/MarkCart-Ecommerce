@@ -3,23 +3,29 @@ import db from "../utils/db.js";
 
 const router = express.Router();
 
+const parseProfilePicture = (value) => {
+    if (!value || typeof value !== "string") return value;
+    const trimmed = value.trim();
+    const firstChar = trimmed[0];
+    if (firstChar !== "{" && firstChar !== "[") return null; // Skip non-JSON strings
+    try {
+        return JSON.parse(trimmed);
+    } catch (err) {
+        // Return null silently to avoid noisy logs when bad data is stored
+        return null;
+    }
+};
+
 // Get all users
 router.get("/", async (req, res) => {
     try {
-        const usersQuery = "SELECT userID, name, email, phoneNumber, profilePicture, gender, birthday, role FROM users"; // Include the role field
+        const usersQuery = "SELECT userID, name, email, phoneNumber, profilePicture, gender, birthday, role FROM users";
         const [users] = await db.query(usersQuery);
 
-        const usersWithProfilePictures = users.map(user => {
-            if (user.profilePicture && typeof user.profilePicture === "string") {
-                try {
-                    user.profilePicture = JSON.parse(user.profilePicture);
-                } catch (err) {
-                    console.error("Error parsing profilePicture:", err);
-                    user.profilePicture = null;
-                }
-            }
-            return user;
-        });
+        const usersWithProfilePictures = users.map((user) => ({
+            ...user,
+            profilePicture: parseProfilePicture(user.profilePicture),
+        }));
 
         res.json(usersWithProfilePictures);
     } catch (err) {
@@ -40,38 +46,15 @@ router.get("/:id", async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
 
-        res.json(user[0]);
+        const userRecord = {
+            ...user[0],
+            profilePicture: parseProfilePicture(user[0].profilePicture),
+        };
+
+        res.json(userRecord);
     } catch (err) {
         console.error("Failed to fetch user data:", err);
         res.status(500).json({ message: "Internal server error" });
-    }
-});
-
-
-router.get("/", async (req, res) => {
-    try {
-        const q = `
-            SELECT userID, name, email, phoneNumber, profilePicture, gender, birthday
-            FROM users
-        `;
-        const [rows] = await db.query(q);
-
-        const users = rows.map(user => {
-            if (user.profilePicture) {
-                try {
-                    user.profilePicture = JSON.parse(user.profilePicture);
-                } catch (err) {
-                    console.error("Error parsing profilePicture:", err);
-                    user.profilePicture = null;
-                }
-            }
-            return user;
-        });
-
-        res.json(users);
-    } catch (err) {
-        console.error("Error fetching users:", err);
-        res.status(500).json({ error: "Failed to fetch users" });
     }
 });
 

@@ -1,0 +1,12 @@
+{
+  "main": "main.js",
+  "name": "markcart-desktop",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "electron": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^37.2.3"
+  }
+}
