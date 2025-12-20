@@ -2,12 +2,13 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "../../styles/adminStyles/ManageUsers.css";
 
+const API_BASE_URL =
+    (process.env.NODE_ENV === 'development'
+        ? 'http://localhost:8800'
+        : process.env.REACT_APP_API_BASE_URL
+    ).replace(/\/$/, '');
+
 const ManageUsers = () => {
-  const API_BASE_URL =
-      (process.env.NODE_ENV === 'development'
-          ? 'http://localhost:8800'
-          : process.env.REACT_APP_API_BASE_URL
-      ).replace(/\/$/, '');
   const [users, setUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [totalUsers, setTotalUsers] = useState(0);

@@ -114,15 +114,25 @@ router.put("/end/:voucherID", async (req, res) => {
 // Delete a voucher
 router.delete("/:voucherID", async (req, res) => {
   const { voucherID } = req.params;
-
-  const q = "DELETE FROM vouchers WHERE voucherID = ?";
+  const connection = await db.getConnection();
 
   try {
-    await db.query(q, [voucherID]);
+    await connection.beginTransaction();
+
+    // Delete related records in user_vouchers
+    await connection.query("DELETE FROM user_vouchers WHERE voucherID = ?", [voucherID]);
+
+    // Delete the voucher
+    await connection.query("DELETE FROM vouchers WHERE voucherID = ?", [voucherID]);
+
+    await connection.commit();
     res.json({ message: "Voucher deleted successfully" });
   } catch (err) {
+    await connection.rollback();
     console.error("Error deleting voucher:", err);
     res.status(500).json({ error: "Failed to delete voucher" });
+  } finally {
+    connection.release();
   }
 });
 

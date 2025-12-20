@@ -4,13 +4,13 @@ import { Link } from "react-router-dom";
 import "../../styles/adminStyles/ManageCategories.css";
 import { add } from "../../assets";
 
-const ManageCategories = () => {
-    const API_BASE_URL =
-        (process.env.NODE_ENV === 'development'
-            ? 'http://localhost:8800'
-            : process.env.REACT_APP_API_BASE_URL
-        ).replace(/\/$/, '');
+const API_BASE_URL =
+    (process.env.NODE_ENV === 'development'
+        ? 'http://localhost:8800'
+        : process.env.REACT_APP_API_BASE_URL
+    ).replace(/\/$/, '');
 
+const ManageCategories = () => {
     const [categories, setCategories] = useState([]);
     const [editingCategory, setEditingCategory] = useState(null);
     const [updatedCategory, setUpdatedCategory] = useState({

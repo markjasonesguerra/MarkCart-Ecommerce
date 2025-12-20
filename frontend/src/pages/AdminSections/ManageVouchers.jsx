@@ -5,12 +5,13 @@ import { format } from "date-fns"; // Import date-fns for date formatting
 import "../../styles/adminStyles/ManageVouchers.css";
 import { add } from "../../assets"; // Ensure the icon is correctly imported
 
+const API_BASE_URL =
+    (process.env.NODE_ENV === 'development'
+        ? 'http://localhost:8800'
+        : process.env.REACT_APP_API_BASE_URL
+    ).replace(/\/$/, '');
+
 const ManageVouchers = () => {
-  const API_BASE_URL =
-      (process.env.NODE_ENV === 'development'
-          ? 'http://localhost:8800'
-          : process.env.REACT_APP_API_BASE_URL
-      ).replace(/\/$/, '');
   const [vouchers, setVouchers] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [editingVoucher, setEditingVoucher] = useState(null);

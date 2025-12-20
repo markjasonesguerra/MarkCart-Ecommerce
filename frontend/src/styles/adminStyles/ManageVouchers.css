@@ -69,7 +69,7 @@
     display: grid;
     grid-template-columns: repeat(8, 1fr);
     padding: 10px 20px;
-    font-weight: bold;
+    font-weight: bold !important;
     border-bottom: 1px solid #ddd;
     text-align: center;
     background-color: #f5f5f5;
@@ -252,4 +252,152 @@
   .voucher-cancel-button:hover {
     background-color: #e4e4e4;
   }
+
+/* Add Voucher Form Improvements */
+.add-voucher-container {
+    max-width: 800px; /* Wider container */
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.form-subtitle {
+    color: #666;
+    margin-top: 5px;
+}
+
+.add-voucher-form {
+    max-width: 100%; /* Let it fill the container */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.add-voucher-form .voucher-form-row {
+    display: flex;
+    gap: 20px;
+}
+
+.add-voucher-form .voucher-form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.add-voucher-form .voucher-form-group.full-width {
+    width: 100%;
+}
+
+.add-voucher-form .voucher-form-group label {
+    font-weight: 600;
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 4px; /* Ensure space between label and input */
+    display: block; /* Ensure it takes its own line */
+}
+
+.add-voucher-form .voucher-form-group input,
+.add-voucher-form .voucher-form-group select,
+.add-voucher-form .voucher-form-group textarea {
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%; /* Ensure full width within group */
+    box-sizing: border-box;
+    margin-top: 0; /* Reset any inherited margin */
+}
+
+.add-voucher-form .voucher-form-group input:focus,
+.add-voucher-form .voucher-form-group select:focus,
+.add-voucher-form .voucher-form-group textarea:focus {
+    border-color: #EE4D2D;
+    box-shadow: 0 0 0 3px rgba(238, 77, 45, 0.1);
+    outline: none;
+}
+
+.add-voucher-form .input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.add-voucher-form .input-prefix {
+    position: absolute;
+    left: 12px;
+    color: #888;
+    font-weight: 500;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.add-voucher-form .input-suffix {
+    position: absolute;
+    right: 12px;
+    color: #888;
+    font-weight: 500;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.add-voucher-form .input-wrapper input {
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+/* Adjust padding if prefix/suffix exists */
+.add-voucher-form .input-wrapper .input-prefix + input {
+    padding-left: 30px;
+}
+
+.add-voucher-form .input-wrapper input:not(:last-child) { /* If there is a suffix (which is last child) */
+    padding-right: 35px;
+}
+
+.add-voucher-form .button-group {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end; /* Align buttons to right */
+    gap: 15px;
+}
+
+.add-voucher-form .voucher-confirm-button {
+    background-color: #EE4D2D;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.add-voucher-form .voucher-confirm-button:hover {
+    background-color: #d63f20;
+}
+
+.add-voucher-form .voucher-cancel-button {
+    background-color: #f5f5f5;
+    color: #666;
+    padding: 12px 24px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.add-voucher-form .voucher-cancel-button:hover {
+    background-color: #e0e0e0;
+    color: #333;
+}
   

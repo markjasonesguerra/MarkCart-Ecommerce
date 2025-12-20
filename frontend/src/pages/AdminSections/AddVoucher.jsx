@@ -42,33 +42,54 @@ const AddVoucher = () => {
   };
 
   return (
-    <div className="form-container">
-      <h1>Add New Voucher</h1>
-      <form className="voucher-form" onSubmit={handleSubmit}>
-        <label>
-          Voucher Code:
-          <input
-            type="text"
-            placeholder="Voucher Code"
-            name="code"
-            value={voucher.code}
-            onChange={handleChange}
-            required
-          />
-        </label>
-        <label>
-          Description:
+    <div className="form-container add-voucher-container">
+      <div className="form-header">
+        <h1>Add New Voucher</h1>
+        <p className="form-subtitle">Create a new voucher for your customers</p>
+      </div>
+      
+      <form className="add-voucher-form" onSubmit={handleSubmit}>
+        
+        <div className="voucher-form-row">
+          <div className="voucher-form-group">
+            <label>Voucher Code</label>
+            <input
+              type="text"
+              placeholder="e.g. SUMMER2024"
+              name="code"
+              value={voucher.code}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="voucher-form-group">
+            <label>Usage Quantity</label>
+            <input
+              type="number"
+              placeholder="100"
+              name="usageLimit"
+              value={voucher.usageLimit}
+              onChange={handleChange}
+              required
+            />
+          </div>
+        </div>
+
+        <div className="voucher-form-group full-width">
+          <label>Description</label>
           <textarea
-            placeholder="Description"
+            placeholder="Describe the voucher details..."
             name="description"
             value={voucher.description}
             onChange={handleChange}
             required
+            rows="3"
           />
-        </label>
-        <label>
-          Voucher Usage Period:
-          <div className="date-inputs">
+        </div>
+
+        <div className="voucher-form-row">
+          <div className="voucher-form-group">
+            <label>Start Date</label>
             <input
               type="date"
               name="startDate"
@@ -76,7 +97,9 @@ const AddVoucher = () => {
               onChange={handleChange}
               required
             />
-            <span>–</span>
+          </div>
+          <div className="voucher-form-group">
+            <label>End Date</label>
             <input
               type="date"
               name="endDate"
@@ -85,66 +108,72 @@ const AddVoucher = () => {
               required
             />
           </div>
-        </label>
-        <label>
-          Discount Type | Amount:
-          <div className="discount-inputs">
+        </div>
+
+        <div className="voucher-form-row">
+          <div className="voucher-form-group">
+            <label>Discount Type</label>
             <select
               name="discountType"
               value={voucher.discountType}
               onChange={handleChange}
               required
             >
-              <option value="percentage">Percentage</option>
-              <option value="fixed">Fixed Amount</option>
+              <option value="percentage">Percentage (%)</option>
+              <option value="fixed">Fixed Amount (₱)</option>
             </select>
-            <input
-              type="number"
-              placeholder={voucher.discountType === "percentage" ? "%OFF" : "Amount ₱"}
-              name="discountValue"
-              value={voucher.discountValue}
-              onChange={handleChange}
-              required
-              style={{ width: "160px" }} // Adjust the width as needed
-            />
           </div>
-        </label>
-        <label>
-          Minimum Basket Price:
-          <input
-            type="number"
-            placeholder="₱ Minimum Purchase"
-            name="minPurchase"
-            value={voucher.minPurchase}
-            onChange={handleChange}
-          />
-        </label>
-        {voucher.discountType === "percentage" && (
-          <label>
-            Maximum Price Discount:
-            <input
-              type="number"
-              placeholder="₱ Maximum Discount"
-              name="maxDiscount"
-              value={voucher.maxDiscount}
-              onChange={handleChange}
-            />
-          </label>
-        )}
-        <label>
-          Usage Quantity:
-          <input
-            type="number"
-            placeholder="Usage Limit"
-            name="usageLimit"
-            value={voucher.usageLimit}
-            onChange={handleChange}
-            required
-          />
-        </label>
+          <div className="voucher-form-group">
+            <label>Discount Value</label>
+            <div className="input-wrapper">
+                <input
+                type="number"
+                placeholder={voucher.discountType === "percentage" ? "10" : "100"}
+                name="discountValue"
+                value={voucher.discountValue}
+                onChange={handleChange}
+                required
+                />
+                <span className="input-suffix">{voucher.discountType === "percentage" ? "%" : "₱"}</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="voucher-form-row">
+          <div className="voucher-form-group">
+            <label>Minimum Basket Price</label>
+            <div className="input-wrapper">
+                <span className="input-prefix">₱</span>
+                <input
+                type="number"
+                placeholder="0.00"
+                name="minPurchase"
+                value={voucher.minPurchase}
+                onChange={handleChange}
+                />
+            </div>
+          </div>
+          
+          <div className="voucher-form-group">
+            <label>Maximum Price Discount</label>
+            <div className="input-wrapper">
+                <span className="input-prefix">₱</span>
+                <input
+                type="number"
+                placeholder="0.00"
+                name="maxDiscount"
+                value={voucher.maxDiscount}
+                onChange={handleChange}
+                disabled={voucher.discountType !== "percentage"}
+                style={{ opacity: voucher.discountType !== "percentage" ? 0.5 : 1 }}
+                />
+            </div>
+          </div>
+        </div>
+
         <div className="button-group">
-          <button type="submit" className="voucher-confirm-button">Confirm</button>
           <button type="button" className="voucher-cancel-button" onClick={() => navigate("/admin/manage-vouchers")}>Cancel</button>
+          <button type="submit" className="voucher-confirm-button">Create Voucher</button>
         </div>
       </form>
     </div>
