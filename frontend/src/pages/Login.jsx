@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
+import { useGoogleLogin } from '@react-oauth/google';
 import {
     logowhite,
-    fbIcon,
     googleIcon,
     errorIcon,
     adminIcon,
@@ -24,6 +24,7 @@ const Login = ({ setUser }) => {
     const [token, setToken] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(null);
     const [show2FA, setShow2FA] = useState(false);
     const [secret, setSecret] = useState("");
     const [isAdmin, setIsAdmin] = useState(false);
@@ -31,6 +32,24 @@ const Login = ({ setUser }) => {
     const [cooldown, setCooldown] = useState(false);  // New state for cooldown
     const [cooldownTimer, setCooldownTimer] = useState(0);  // Track the cooldown time
     const navigate = useNavigate();
+    const location = useLocation();
+
+    useEffect(() => {
+        if (location.state && location.state.pendingUser && location.state.secret) {
+            setPendingUser(location.state.pendingUser);
+            setSecret(location.state.secret);
+            setEmail(location.state.pendingUser.email); // Set email for resend functionality
+            setShow2FA(true);
+            if (location.state.message) {
+                setSuccess(location.state.message);
+            }
+            if (location.state.pendingUser.role === "Admin") {
+                setIsAdmin(true);
+            }
+            // Clear the state to prevent re-triggering on refresh
+            navigate(location.pathname, { replace: true, state: {} });
+        }
+    }, [location.state, navigate, location.pathname]);
 
     useEffect(() => {
         if (isAdmin) {
@@ -142,6 +161,33 @@ const Login = ({ setUser }) => {
             .catch(() => setError("Failed to resend 2FA code"));
     };
 
+    const googleLogin = useGoogleLogin({
+        onSuccess: async (tokenResponse) => {
+            try {
+                const res = await axios.post(`${API_BASE_URL}/auth/google-login`, {
+                    token: tokenResponse.access_token,
+                });
+                const user = res.data.user;
+                setPendingUser(user); // Set pending user state
+
+                // Check if the user is an admin
+                if (user.role === "Admin") {
+                    setIsAdmin(true); // Set admin flag
+                }
+
+                // Show 2FA input
+                setSecret(res.data.secret);
+                setShow2FA(true);
+            } catch (err) {
+                console.error("Google login error:", err);
+                setError("Google login failed");
+            }
+        },
+        onError: () => {
+            setError("Google login failed");
+        },
+    });
+
     return (
         <div className="login-page">
             <header className="login-header">
@@ -155,6 +201,11 @@ const Login = ({ setUser }) => {
 
                 <div className="form-section">
                     <h3>Log In</h3>
+                    {success && (
+                        <div className="success-message">
+                            <span>{success}</span>
+                        </div>
+                    )}
                     {error && (
                         <div className="error-message">
                             <img src={errorIcon} alt="Error" className="error-icon" />
@@ -217,10 +268,7 @@ const Login = ({ setUser }) => {
                         <div className="divider">
                             <span>OR</span>
                         </div>
-                        <button className="social-button facebook">
-                            <img src={fbIcon} alt="Facebook" /> Facebook
-                        </button>
-                        <button className="social-button google">
+                        <button className="social-button google" onClick={() => googleLogin()}>
                             <img src={googleIcon} alt="Google" /> Google
                         </button>
                     </div>

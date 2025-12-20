@@ -45,7 +45,7 @@ function App() {
           {/* Public Routes */}
           <Route path="/" element={<Products user={user} setUser={setUser} />} />
           <Route path="/login" element={<Login setUser={setUser} />} />
-          <Route path="/signup" element={<Register />} />
+          <Route path="/signup" element={<Register setUser={setUser} />} />
           <Route path="/cart" element={<Cart user={user} setUser={setUser} />} />
           <Route path="/request-password-reset" element={<RequestPasswordReset />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />

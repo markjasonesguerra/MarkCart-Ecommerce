@@ -2,6 +2,7 @@ import express from "express";
 import bcrypt from 'bcryptjs';
 import speakeasy from "speakeasy";
 import qrcode from "qrcode";
+import axios from "axios";
 import { sendEmail } from "../utils/emails.js";  // Use the new email utility
 import db from "../utils/db.js"; // DB connection
 import dotenv from "dotenv";
@@ -72,23 +73,40 @@ router.post("/login", async (req, res) => {
                 return res.status(500).json({ error: 'Error generating QR code' });
             }
 
-            // Send email with 2FA secret and QR code
-            sendEmail(email, "Your 2FA Secret", `<p>Your 2FA secret is: ${secret.base32}</p><img src="${data_url}" alt="QR Code" />`)
-                .then(() => {
-                    res.json({
-                        message: "Login successful, 2FA required",
-                        user: { id: user.userID, name: user.name, role: user.role },
-                        secret: secret.base32,
-                        qrCode: data_url,
+            try {
+                // extract base64 payload from data URL
+                const base64 = data_url.split(',')[1];
+                const imgBuffer = Buffer.from(base64, 'base64');
+
+                const html = `<p>Your 2FA secret is: ${secret.base32}</p><p>If you use an authenticator app you can scan the QR code below:</p><img src="cid:qrcode@markcart" alt="QR Code" />`;
+                const attachments = [
+                    {
+                        filename: 'qrcode.png',
+                        content: imgBuffer,
+                        cid: 'qrcode@markcart',
+                    },
+                ];
+
+                // Send email with 2FA secret and QR code as inline attachment
+                sendEmail(email, "Your 2FA Secret", html, attachments)
+                    .then(() => {
+                        res.json({
+                            message: "Login successful, 2FA required",
+                            user: { id: user.userID, name: user.name, role: user.role },
+                            secret: secret.base32,
+                            qrCode: data_url,
+                        });
+                    })
+                    .catch((error) => {
+                        console.error('Error sending email:', error);
+                        res.status(500).json({ error: "Error sending 2FA email" });
                     });
-                })
-                .catch((error) => {
-                    console.log("Error sending email", error);
-                    res.status(500).json({ error: "Error sending 2FA email" });
-                });
+            } catch (e) {
+                console.error('Error preparing QR attachment:', e);
+                return res.status(500).json({ error: 'Error preparing QR code attachment' });
+            }
         });
     } catch (err) {
-        console.log("Error during login process", err);
         return res.status(500).json(err);
     }
 });
@@ -176,5 +194,100 @@ router.post("/change-password/:userID", async (req, res) => {
       res.status(500).json({ error: "Failed to verify old password." });
     }
   });
+
+// Google Login
+router.post("/google-login", async (req, res) => {
+    const { token } = req.body;
+
+    try {
+        // Fetch user info from Google
+        const googleRes = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        const { email, name } = googleRes.data;
+
+        // Check if user exists
+        const q = "SELECT * FROM users WHERE email = ?";
+        const [users] = await db.query(q, [email]);
+
+        let user;
+        let isNewUser = false;
+
+        if (users.length > 0) {
+            user = users[0];
+        } else {
+            isNewUser = true;
+            // Create new user
+            // We need a password for the DB constraint, so we generate a random one.
+            const randomPassword = Math.random().toString(36).slice(-8);
+            const hashedPassword = await bcrypt.hash(randomPassword, saltRounds);
+
+            const insertQ = "INSERT INTO users (`name`, `email`, `password`, `role`) VALUES (?, ?, ?, 'Customer')";
+            const [result] = await db.query(insertQ, [name, email, hashedPassword]);
+            
+            user = {
+                userID: result.insertId,
+                name,
+                email,
+                role: 'Customer'
+            };
+        }
+
+        // Generate 2FA secret
+        const secret = speakeasy.generateSecret({ length: 20 });
+        const otpauthURL = speakeasy.otpauthURL({
+            secret: secret.base32,
+            label: `Mark Cart (${email})`,
+            encoding: 'base32',
+        });
+
+        // Generate QR code URL
+            // Generate QR code URL
+            qrcode.toDataURL(otpauthURL, (err, data_url) => {
+                if (err) {
+                    return res.status(500).json({ error: 'Error generating QR code' });
+                }
+
+                try {
+                    const base64 = data_url.split(',')[1];
+                    const imgBuffer = Buffer.from(base64, 'base64');
+
+                    const html = `<p>Your 2FA secret is: ${secret.base32}</p><p>If you use an authenticator app you can scan the QR code below:</p><img src="cid:qrcode@markcart" alt="QR Code" />`;
+                    const attachments = [
+                        {
+                            filename: 'qrcode.png',
+                            content: imgBuffer,
+                            cid: 'qrcode@markcart',
+                        },
+                    ];
+
+                    sendEmail(email, "Your 2FA Secret", html, attachments)
+                        .then(() => {
+                            res.json({
+                                message: "Google login successful, 2FA required",
+                                user: { id: user.userID, name: user.name, role: user.role, email: user.email },
+                                secret: secret.base32,
+                                qrCode: data_url,
+                                isNewUser
+                            });
+                        })
+                        .catch((error) => {
+                            console.error("Error sending email:", error);
+                            res.status(500).json({ error: "Error sending 2FA email" });
+                        });
+                } catch (e) {
+                    console.error('Error preparing QR attachment:', e);
+                    return res.status(500).json({ error: 'Error preparing QR code attachment' });
+                }
+            });
+
+    } catch (err) {
+        console.error("Google login error:", err);
+        res.status(500).json({ error: "Google login failed" });
+    }
+});
   
 export default router;
