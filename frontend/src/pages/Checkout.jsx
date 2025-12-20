@@ -345,19 +345,37 @@ const Checkout = ({ user, setUser }) => {
         {showAddressModal && (
           <div className="address-modal">
             <div className="address-modal-content">
-              <h2>Select Address</h2>
-              {addresses.map((address) => (
-                <div
-                  key={address.addressID}
-                  className={`address-item ${tempSelectedAddress?.addressID === address.addressID ? "selected" : ""}`}
-                  onClick={() => setTempSelectedAddress(address)}
-                >
-                  <p>{address.addressLine1}, {address.city}, {address.state} {address.postalCode}</p>
-                </div>
-              ))}
+              <div className="modal-header">
+                <h2>Select Address</h2>
+                <button className="close-modal-btn" onClick={handleCancelAddress}>×</button>
+              </div>
+              <div className="modal-body-scroll">
+                {addresses.map((address) => (
+                  <div
+                    key={address.addressID}
+                    className={`address-item ${tempSelectedAddress?.addressID === address.addressID ? "selected" : ""}`}
+                    onClick={() => setTempSelectedAddress(address)}
+                  >
+                    <div className="address-item-content">
+                        <p className="address-text">
+                            <strong>{address.addressLine1}</strong>
+                            {address.addressLine2 && <span>, {address.addressLine2}</span>}
+                        </p>
+                        <p className="address-subtext">
+                            {address.city}, {address.state} {address.postalCode}
+                        </p>
+                        {address.isPrimary && <span className="primary-badge">Default</span>}
+                    </div>
+                    <div className="radio-indicator"></div>
+                  </div>
+                ))}
+                <button className="add-new-address-btn" onClick={() => navigate("/profile?section=account&category=addresses")}>
+                    + Add New Address
+                </button>
+              </div>
               <div className="modal-actions">
-                <button onClick={handleConfirmAddress}>Confirm</button>
-                <button onClick={handleCancelAddress}>Cancel</button>
+                <button className="cancel-btn" onClick={handleCancelAddress}>Cancel</button>
+                <button className="confirm-btn" onClick={handleConfirmAddress}>Confirm</button>
               </div>
             </div>
           </div>
@@ -441,30 +459,41 @@ const Checkout = ({ user, setUser }) => {
         {showShippingModal && (
           <div className="shipping-modal">
             <div className="shipping-modal-content">
-              <h2>Select Shipping Option</h2>
-              <div className={`shipping-option-item ${tempSelectedShippingOption === "Standard" ? "selected" : ""}`} onClick={() => setTempSelectedShippingOption("Standard")}>
-                <p>
-                  Standard Local 
-                  <img src={intransit} alt="In Transit" className="intransit-icon" />
-                  <span className="delivery-date">
-                    Guaranteed to get by {getDeliveryDate(3)} - {getDeliveryDate(5)}
-                  </span>
-                  <span className="price">₱36</span>
-                </p>
+              <div className="modal-header">
+                <h2>Select Shipping Option</h2>
+                <button className="close-modal-btn" onClick={handleCancelShipping}>×</button>
               </div>
-              <div className={`shipping-option-item ${tempSelectedShippingOption === "Expedited" ? "selected" : ""}`} onClick={() => setTempSelectedShippingOption("Expedited")}>
-                <p>
-                  Expedited Local 
-                  <img src={intransit} alt="In Transit" className="intransit-icon" />
-                  <span className="delivery-date">
-                    Guaranteed to get by {getDeliveryDate(1)} - {getDeliveryDate(2)}
-                  </span>
-                  <span className="price">₱50</span>
-                </p>
+              <div className="modal-body-scroll">
+                <div className={`shipping-option-item ${tempSelectedShippingOption === "Standard" ? "selected" : ""}`} onClick={() => setTempSelectedShippingOption("Standard")}>
+                    <div className="shipping-info">
+                        <div className="shipping-title">
+                            Standard Local
+                            <span className="shipping-tag">Best Value</span>
+                        </div>
+                        <div className="shipping-date">
+                            Get by {getDeliveryDate(3)} - {getDeliveryDate(5)}
+                        </div>
+                    </div>
+                    <div className="shipping-price">₱36</div>
+                    <div className="radio-indicator"></div>
+                </div>
+                <div className={`shipping-option-item ${tempSelectedShippingOption === "Expedited" ? "selected" : ""}`} onClick={() => setTempSelectedShippingOption("Expedited")}>
+                    <div className="shipping-info">
+                        <div className="shipping-title">
+                            Expedited Local
+                            <span className="shipping-tag fast">Fastest</span>
+                        </div>
+                        <div className="shipping-date">
+                            Get by {getDeliveryDate(1)} - {getDeliveryDate(2)}
+                        </div>
+                    </div>
+                    <div className="shipping-price">₱50</div>
+                    <div className="radio-indicator"></div>
+                </div>
               </div>
               <div className="shipping-modal-actions">
-                <button onClick={handleConfirmShipping}>Confirm</button>
-                <button onClick={handleCancelShipping}>Cancel</button>
+                <button className="cancel-btn" onClick={handleCancelShipping}>Cancel</button>
+                <button className="confirm-btn" onClick={handleConfirmShipping}>Confirm</button>
               </div>
             </div>
           </div>

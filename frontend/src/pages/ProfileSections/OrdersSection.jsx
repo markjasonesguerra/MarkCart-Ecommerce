@@ -190,50 +190,78 @@ const OrdersSection = ({ orders, selectedCategory, user }) => {
       {showReviewModal && (
         <div className="review-modal">
           <div className="review-modal-content">
-            <h2>Rate Product</h2>
-            <div className="review-item">
-              <span className="review-item">
-                <img
-                  src={`${API_BASE_URL}/${reviewData.productImage}`} // Ensure the correct path
-                  alt={reviewData.productName}
-                  className="product-image"
-                />
-                <p className="product-name">{reviewData.productName}</p>
-              </span>
+            <div className="review-modal-header">
+              <h2>Rate Product</h2>
+              <button className="close-modal-btn" onClick={() => setShowReviewModal(false)}>×</button>
             </div>
-            <label>
-              Product Quality:
-              <StarRating
-                rating={reviewData.productQuality}
-                onRatingChange={(value) => handleStarRatingChange("productQuality", value)}
-              />
-            </label>
-            <label>
-              Performance:
-              <textarea name="performance" value={reviewData.performance} onChange={handleReviewChange}></textarea>
-            </label>
-            <label>
-              Suitability:
-              <textarea name="suitability" value={reviewData.suitability} onChange={handleReviewChange}></textarea>
-            </label>
-            <label>
-              Seller Service:
-              <StarRating
-                rating={reviewData.sellerService}
-                onRatingChange={(value) => handleStarRatingChange("sellerService", value)}
-              />
-            </label>
-            <label>
-              Delivery Service:
-              <StarRating
-                rating={reviewData.deliveryService}
-                onRatingChange={(value) => handleStarRatingChange("deliveryService", value)}
-              />
-            </label>
-            <label>
-              Comment:
-              <textarea name="comment" value={reviewData.comment} onChange={handleReviewChange}></textarea>
-            </label>
+            
+            <div className="review-product-info">
+                <img
+                  src={`${API_BASE_URL}/${reviewData.productImage}`}
+                  alt={reviewData.productName}
+                  className="product-image-large"
+                />
+                <p className="product-name-large">{reviewData.productName}</p>
+            </div>
+
+            <div className="review-form-scroll">
+                <div className="rating-section">
+                    <h3>Ratings</h3>
+                    <div className="rating-row">
+                        <label>Product Quality</label>
+                        <StarRating
+                            rating={reviewData.productQuality}
+                            onRatingChange={(value) => handleStarRatingChange("productQuality", value)}
+                        />
+                    </div>
+                    <div className="rating-row">
+                        <label>Seller Service</label>
+                        <StarRating
+                            rating={reviewData.sellerService}
+                            onRatingChange={(value) => handleStarRatingChange("sellerService", value)}
+                        />
+                    </div>
+                    <div className="rating-row">
+                        <label>Delivery Service</label>
+                        <StarRating
+                            rating={reviewData.deliveryService}
+                            onRatingChange={(value) => handleStarRatingChange("deliveryService", value)}
+                        />
+                    </div>
+                </div>
+
+                <div className="text-input-section">
+                    <h3>Written Review</h3>
+                    <div className="input-wrapper">
+                        <label>Performance</label>
+                        <textarea 
+                            name="performance" 
+                            value={reviewData.performance} 
+                            onChange={handleReviewChange}
+                            placeholder="How is the product performance?"
+                        ></textarea>
+                    </div>
+                    <div className="input-wrapper">
+                        <label>Suitability</label>
+                        <textarea 
+                            name="suitability" 
+                            value={reviewData.suitability} 
+                            onChange={handleReviewChange}
+                            placeholder="Is it suitable for your needs?"
+                        ></textarea>
+                    </div>
+                    <div className="input-wrapper">
+                        <label>Comment</label>
+                        <textarea 
+                            name="comment" 
+                            value={reviewData.comment} 
+                            onChange={handleReviewChange}
+                            placeholder="Share your experience with this product..."
+                        ></textarea>
+                    </div>
+                </div>
+            </div>
+
             <div className="button-container">
               <button className="cancl-button" onClick={() => setShowReviewModal(false)}>Cancel</button>
               <button className="submit-button" onClick={handleReviewSubmit}>Submit</button>

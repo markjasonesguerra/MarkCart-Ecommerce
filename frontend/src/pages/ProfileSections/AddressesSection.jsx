@@ -86,69 +86,75 @@ const AddressesSection = ({
       {isModalOpen && (
         <div className="address-modal-overlay">
             <div className="address-modal-content">
-            <h2>{isAdding ? "Add New Address" : "Edit Address"}</h2>
+            <div className="address-modal-header">
+                <h2>{isAdding ? "Add New Address" : "Edit Address"}</h2>
+                <button className="close-modal-btn" onClick={() => setIsModalOpen(false)}>×</button>
+            </div>
             <form className="address-form" onSubmit={handleFormSubmit}>
-                <div className="form-group">
-                    <label htmlFor="addressLine1">Address Line 1</label>
-                    <input
-                    type="text"
-                    id="addressLine1"
-                    name="addressLine1"
-                    value={addressForm.addressLine1}
-                    onChange={handleFormChange}
-                    placeholder="Address Line 1"
-                    required
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="addressLine2">Address Line 2</label>
-                    <input
-                    type="text"
-                    id="addressLine2"
-                    name="addressLine2"
-                    value={addressForm.addressLine2}
-                    onChange={handleFormChange}
-                    placeholder="Address Line 2"
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="city">City</label>
-                    <input
-                    type="text"
-                    id="city"
-                    name="city"
-                    value={addressForm.city}
-                    onChange={handleFormChange}
-                    placeholder="City"
-                    required
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="state">Region</label>
-                    <input
-                    type="text"
-                    id="state"
-                    name="state"
-                    value={addressForm.state}
-                    onChange={handleFormChange}
-                    placeholder="State"
-                    required
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="postalCode">Postal Code</label>
-                    <input
-                    type="text"
-                    id="postalCode"
-                    name="postalCode"
-                    value={addressForm.postalCode}
-                    onChange={handleFormChange}
-                    placeholder="Postal Code"
-                    required
-                    />
+                <div className="address-form-scroll">
+                    <div className="form-group">
+                        <label htmlFor="addressLine1">Address Line 1</label>
+                        <input
+                        type="text"
+                        id="addressLine1"
+                        name="addressLine1"
+                        value={addressForm.addressLine1}
+                        onChange={handleFormChange}
+                        placeholder="Street address, P.O. box, company name, c/o"
+                        required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="addressLine2">Address Line 2</label>
+                        <input
+                        type="text"
+                        id="addressLine2"
+                        name="addressLine2"
+                        value={addressForm.addressLine2}
+                        onChange={handleFormChange}
+                        placeholder="Apartment, suite, unit, building, floor, etc."
+                        />
+                    </div>
+                    <div className="form-row-split">
+                        <div className="form-group">
+                            <label htmlFor="city">City</label>
+                            <input
+                            type="text"
+                            id="city"
+                            name="city"
+                            value={addressForm.city}
+                            onChange={handleFormChange}
+                            placeholder="City"
+                            required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="state">Region/State</label>
+                            <input
+                            type="text"
+                            id="state"
+                            name="state"
+                            value={addressForm.state}
+                            onChange={handleFormChange}
+                            placeholder="Region/State"
+                            required
+                            />
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="postalCode">Postal Code</label>
+                        <input
+                        type="text"
+                        id="postalCode"
+                        name="postalCode"
+                        value={addressForm.postalCode}
+                        onChange={handleFormChange}
+                        placeholder="Postal Code"
+                        required
+                        />
+                    </div>
                 </div>
                 <div className="address-modal-actions">
-                    <button type="submit" className="address-save-button">Save</button>
                     <button
                     type="button"
                     className="address-cancel-button"
@@ -156,6 +162,7 @@ const AddressesSection = ({
                     >
                     Cancel
                     </button>
+                    <button type="submit" className="address-save-button">Submit</button>
                 </div>
                 </form>
 
