@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback} from "react";
 import axios from "axios";
-import { useNavigate, Link, useSearchParams } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import {
     logo,
     shoppingCartIcon,
@@ -8,6 +8,7 @@ import {
     searchIcon,
     filter,
     arrowdown,
+    dropDown,
     back,
     forward,
     starfill,
@@ -44,14 +45,13 @@ const Products = ({ user, setUser }) => {
     const [topSubcategories, setTopSubcategories] = useState([]); // State for top subcategories
     const [products, setProducts] = useState([]);
     const [showPriceDropdown, setShowPriceDropdown] = useState(false); // State for price dropdown visibility
+    const [showCategoryDropdown, setShowCategoryDropdown] = useState(false); // State for category dropdown visibility
     const [priceSortOption, setPriceSortOption] = useState(""); // State for selected price sorting option
     const [showSearchFilterDropdown, setShowSearchFilterDropdown] = useState(false);
+    const [categoryWidth, setCategoryWidth] = useState(null); // Dynamic width for custom category dropdown
     const containerRef = useRef(null);
     const navigate = useNavigate();
     const selectRef = useRef(null);
-    const [searchParams] = useSearchParams();
-    const selectedCartItemID = searchParams.get("selected");
-    const [selectedItems, setSelectedItems] = useState([]);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
 
     // State variables for filters
@@ -63,12 +63,6 @@ const Products = ({ user, setUser }) => {
     const [isRightDisabled, setIsRightDisabled] = useState(false);
 
     useEffect(() => {
-        if (selectedCartItemID) {
-            setSelectedItems([selectedCartItemID]);
-        }
-    }, [selectedCartItemID]);
-
-    useEffect(() => {
         const fetchCategories = async () => {
             try {
                 const res = await axios.get(`${API_BASE_URL}/categories`);
@@ -78,7 +72,7 @@ const Products = ({ user, setUser }) => {
             }
         };
         fetchCategories();
-    }, []);
+    }, [API_BASE_URL]);
     
     useEffect(() => { window.scrollTo({ top: 0, behavior: "auto" }); 
     }, [currentPage]);
@@ -110,7 +104,7 @@ const Products = ({ user, setUser }) => {
         };
     
         fetchUserData();
-    }, [user?.id, setUser]);
+    }, [API_BASE_URL, user?.id, setUser]);
     
     useEffect(() => {
     }, [filteredProducts]);
@@ -149,11 +143,10 @@ const Products = ({ user, setUser }) => {
         } catch (err) {
             console.error("Error filtering products:", err);
         }
-    }, [selectedCategoryID, selectedSubcategoryID, searchQuery, minPrice, maxPrice, minRating, sortOption]);
+    }, [API_BASE_URL, selectedCategoryID, selectedSubcategoryID, searchQuery, minPrice, maxPrice, minRating, sortOption]);
     
     // Fetch all products and apply initial filters
     useEffect(() => {
-        console.log("Effect triggered for user?.id:", user?.id);
         const fetchAllProducts = async () => {
             try {
                 const res = await axios.get(`${API_BASE_URL}/products`);
@@ -180,7 +173,7 @@ const Products = ({ user, setUser }) => {
             }
         };
         fetchAllProducts();
-    }, [user?.id]); 
+    }, [API_BASE_URL, user?.id]); 
     
 
     // Fetch cart items count
@@ -199,27 +192,33 @@ const Products = ({ user, setUser }) => {
         };
     
         fetchCartItemsCount();
-    }, [user?.id]);
+    }, [API_BASE_URL, user?.id]);
     
 
-    // Adjust dropdown width based on selected option
+    // Dynamically size the custom category trigger based on the selected label length
     useEffect(() => {
-        if (selectRef.current) {
-            const selectedOption = selectRef.current.options[selectRef.current.selectedIndex];
-            const tempDiv = document.createElement("div");
-            tempDiv.style.position = "absolute";
-            tempDiv.style.visibility = "hidden";
-            tempDiv.style.height = "auto";
-            tempDiv.style.width = "auto";
-            tempDiv.style.whiteSpace = "nowrap";
-            tempDiv.style.fontSize = "15px"; // Match the font size of the select element
-            tempDiv.innerHTML = selectedOption.text;
-            document.body.appendChild(tempDiv);
-            const width = tempDiv.clientWidth + 60; 
-            selectRef.current.style.width = `${width}px`;
-            document.body.removeChild(tempDiv);
-        }
-    }, [categoryID]);
+        const label = categoryID
+            ? categories.find((c) => c.categoryID === categoryID)?.name || ""
+            : "All";
+
+        const tempSpan = document.createElement("span");
+        tempSpan.style.position = "absolute";
+        tempSpan.style.visibility = "hidden";
+        tempSpan.style.height = "auto";
+        tempSpan.style.width = "auto";
+        tempSpan.style.whiteSpace = "nowrap";
+        tempSpan.style.fontSize = "14px";
+        tempSpan.style.fontFamily = "inherit";
+        tempSpan.innerText = label;
+        document.body.appendChild(tempSpan);
+
+        const measuredWidth = tempSpan.clientWidth + 60; // padding + caret space
+        document.body.removeChild(tempSpan);
+
+        // Clamp to keep UI tidy
+        const clamped = Math.min(Math.max(measuredWidth, 90), 280);
+        setCategoryWidth(clamped);
+    }, [categoryID, categories]);
 
     useEffect(() => {
        // handleSearchAndFilter(); i comment this to apply filter only when the button is clicked
@@ -287,15 +286,6 @@ const Products = ({ user, setUser }) => {
         );
     };
     
-    // Logout handler
-    const handleLogout = () => {
-        localStorage.removeItem("user");
-        if (typeof setUser === 'function') {
-            setUser(null);
-        }
-        navigate("/login");
-    };
-
     // Add product to cart
     const handleAddToCart = async (productID) => {
         if (!user) {
@@ -428,7 +418,7 @@ const Products = ({ user, setUser }) => {
             }
         };
         fetchSubcategories();
-    }, [selectedCategoryID]);
+    }, [API_BASE_URL, selectedCategoryID]);
     
     useEffect(() => {
         const fetchPopularSubcategories = async () => {
@@ -440,7 +430,7 @@ const Products = ({ user, setUser }) => {
             }
         };
         fetchPopularSubcategories();
-    }, [selectedCategoryID]);
+    }, [API_BASE_URL, selectedCategoryID]);
 
     const handleEditProduct = (productID) => {
         navigate(`/admin/update/${productID}`);
@@ -454,6 +444,23 @@ const Products = ({ user, setUser }) => {
         } catch (err) {
             console.error("Error deleting product:", err);
             alert("Failed to delete product. Please try again.");
+        }
+    };
+
+    // Secure logout: hit backend, clear client state, and redirect
+    const handleLogout = async () => {
+        try {
+            await axios.post(`${API_BASE_URL}/auth/logout`, {}, { withCredentials: true });
+        } catch (err) {
+            console.error("Logout request failed:", err);
+        } finally {
+            localStorage.removeItem("user");
+            setUser(null);
+            setShowProfileMenu(false);
+            if (axios.defaults.headers.common.Authorization) {
+                delete axios.defaults.headers.common.Authorization;
+            }
+            navigate("/login");
         }
     };
 
@@ -484,18 +491,50 @@ const Products = ({ user, setUser }) => {
             <nav className="main-navbar">
                 <img src={logo} alt="Mark Cart Logo" className="logo" onClick={() => window.location.href = "/"} />
                 <div className="search-container">
-                    <select
-                        ref={selectRef}
-                        value={categoryID}
-                        onChange={handleCategoryChange}
-                    >
-                        <option value="">All</option>
-                        {categories.filter((cat) => !cat.parentCategoryID).map((category) => (
-                            <option key={category.categoryID} value={category.categoryID}>
-                                {category.name}
-                            </option>
-                        ))}
-                    </select>
+                    <div className="custom-select-container" ref={selectRef}>
+                        <div 
+                            className="custom-select-trigger" 
+                            onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
+                            style={categoryWidth ? { width: `${categoryWidth}px` } : undefined}
+                        >
+                            <span>
+                                {categoryID 
+                                    ? categories.find(c => c.categoryID === categoryID)?.name 
+                                    : "All"}
+                            </span>
+                            <img 
+                                src={dropDown} 
+                                alt="" 
+                                className={`dropdown-arrow ${showCategoryDropdown ? 'open' : ''}`}
+                                style={{ width: '10px', marginLeft: '8px', transition: 'transform 0.3s' }} 
+                            />
+                        </div>
+                        {showCategoryDropdown && (
+                            <div className="custom-options">
+                                <div 
+                                    className={`custom-option ${categoryID === "" ? "selected" : ""}`}
+                                    onClick={() => {
+                                        handleCategoryChange({ target: { value: "" } });
+                                        setShowCategoryDropdown(false);
+                                    }}
+                                >
+                                    All
+                                </div>
+                                {categories.filter((cat) => !cat.parentCategoryID).map((category) => (
+                                    <div 
+                                        key={category.categoryID} 
+                                        className={`custom-option ${categoryID === category.categoryID ? "selected" : ""}`}
+                                        onClick={() => {
+                                            handleCategoryChange({ target: { value: category.categoryID } });
+                                            setShowCategoryDropdown(false);
+                                        }}
+                                    >
+                                        {category.name}
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
 
                     <input
                         type="text"
@@ -545,15 +584,7 @@ const Products = ({ user, setUser }) => {
                                     {user?.role !== "Admin" && (
                                         <li onClick={() => navigate("/profile?section=purchase&category=all")}>My Orders</li>
                                     )}
-                                    <li
-                                        onClick={() => {
-                                            localStorage.removeItem("user");
-                                            setUser(null);
-                                            navigate("/login");
-                                        }}
-                                    >
-                                        Logout
-                                    </li>
+                                    <li onClick={handleLogout}>Logout</li>
                                 </ul>
                             )}
                         </div>
