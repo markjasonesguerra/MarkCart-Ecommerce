@@ -22,12 +22,10 @@ const RequestPasswordReset = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            console.log("Sending password reset request for email:", email); // Log the email being sent
             await axios.post(`${API_BASE_URL}/password-reset/request-password-reset`, { email });
             setMessage(`A verification email has been sent. Please verify it.`);
             setError(""); // Clear any previous error
         } catch (err) {
-            console.error("Error during password reset request:", err); // Log the error
             setMessage(""); // Clear any previous message
             setError(err.response ? err.response.data.error : err.message);
         }

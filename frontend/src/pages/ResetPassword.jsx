@@ -63,14 +63,12 @@ const ResetPassword = () => {
             const res = await axios.post(`${API_BASE_URL}/password-reset/reset/${token}`, { password });
             setMessage(res.data.message);
             setError("");
-            console.log("Password reset successful:", res.data.message); // Log success message
             setTimeout(() => {
                 navigate("/login");
             }, 5000); // Redirect after 5 seconds
         } catch (err) {
             setMessage("");
             setError(err.response ? err.response.data.error : err.message);
-            console.error("Error during password reset:", err); // Log the error
         }
     };
 

@@ -18,10 +18,12 @@ const Login = ({ setUser }) => {
             ? 'http://localhost:8800'
             : process.env.REACT_APP_API_BASE_URL
         ).replace(/\/$/, '');
+    const navigate = useNavigate();
     const [pendingUser, setPendingUser] = useState(null);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [token, setToken] = useState("");
+    const [token, setToken] = useState(""); // 2FA token input
+    const [pendingToken, setPendingToken] = useState(""); // JWT issued after login
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
@@ -31,7 +33,6 @@ const Login = ({ setUser }) => {
     const [showAdminNotice, setShowAdminNotice] = useState(false);
     const [cooldown, setCooldown] = useState(false);  // New state for cooldown
     const [cooldownTimer, setCooldownTimer] = useState(0);  // Track the cooldown time
-    const navigate = useNavigate();
     const location = useLocation();
 
     useEffect(() => {
@@ -92,21 +93,16 @@ const Login = ({ setUser }) => {
         setLoading(true);
         setError(null);
         try {
-            console.log("Sending login data:", { email, password }); // Log the data being sent
             const res = await axios.post(`${API_BASE_URL}/auth/login`, { email, password });
             const user = res.data.user;
-
-            // // Save user info to local storage or state
-            // localStorage.setItem("user", JSON.stringify(user));
-            // setUser(user);
+            const issuedToken = res.data.token;
             setPendingUser(user); // Set pending user state
+            setPendingToken(issuedToken || "");
 
-            // Check if the user is an admin
             if (user.role === "Admin") {
-                setIsAdmin(true); // Set admin flag
+                setIsAdmin(true);
             }
 
-            // Show 2FA input
             setSecret(res.data.secret);
             setShow2FA(true);
         } catch (err) {
@@ -126,8 +122,9 @@ const Login = ({ setUser }) => {
             const res = await axios.post(`${API_BASE_URL}/auth/verify-2fa`, { token, secret });
             if (res.status === 200) {
                 if (pendingUser) {
-                    localStorage.setItem("user", JSON.stringify(pendingUser));
-                    setUser(pendingUser);
+                    const userToStore = { ...pendingUser, token: pendingToken };
+                    localStorage.setItem("user", JSON.stringify(userToStore));
+                    setUser(userToStore);
                 }
                 if (isAdmin) {
                     navigate("/admin"); // Redirect to the admin dashboard
@@ -168,7 +165,9 @@ const Login = ({ setUser }) => {
                     token: tokenResponse.access_token,
                 });
                 const user = res.data.user;
+                const issuedToken = res.data.token; // Record issued token
                 setPendingUser(user); // Set pending user state
+                setPendingToken(issuedToken || ""); // Set pending token state
 
                 // Check if the user is an admin
                 if (user.role === "Admin") {

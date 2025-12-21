@@ -6,6 +6,7 @@ import axios from "axios";
 import { sendEmail } from "../utils/emails.js";  // Use the new email utility
 import db from "../utils/db.js"; // DB connection
 import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
 
 dotenv.config(); // Load environment variables
 
@@ -59,6 +60,12 @@ router.post("/login", async (req, res) => {
             return res.status(401).json({ error: "Invalid credentials" });
         }
 
+        const token = jwt.sign(
+            { userID: user.userID, role: user.role, email: user.email },
+            process.env.JWT_SECRET,
+            { expiresIn: "7d" }
+        );
+
         // Generate 2FA secret
         const secret = speakeasy.generateSecret({ length: 20 });
         const otpauthURL = speakeasy.otpauthURL({
@@ -93,6 +100,7 @@ router.post("/login", async (req, res) => {
                         res.json({
                             message: "Login successful, 2FA required",
                             user: { id: user.userID, name: user.name, role: user.role },
+                            token,
                             secret: secret.base32,
                             qrCode: data_url,
                         });
@@ -266,9 +274,16 @@ router.post("/google-login", async (req, res) => {
 
                     sendEmail(email, "Your 2FA Secret", html, attachments)
                         .then(() => {
+                            const jwtToken = jwt.sign(
+                                { userID: user.userID, role: user.role, email: user.email },
+                                process.env.JWT_SECRET,
+                                { expiresIn: "7d" }
+                            );
+
                             res.json({
                                 message: "Google login successful, 2FA required",
                                 user: { id: user.userID, name: user.name, role: user.role, email: user.email },
+                                token: jwtToken,
                                 secret: secret.base32,
                                 qrCode: data_url,
                                 isNewUser

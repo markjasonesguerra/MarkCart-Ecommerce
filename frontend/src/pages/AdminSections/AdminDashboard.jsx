@@ -122,6 +122,9 @@ const AdminDashboard = ({ user, setUser }) => {
               <NavLink to="/admin/manage-users" className={({ isActive }) => (isActive ? "active-link" : "")}>Users</NavLink>
             </li>
             <li>
+              <NavLink to="/admin/messages" className={({ isActive }) => (isActive ? "active-link" : "")}>Messages</NavLink>
+            </li>
+            <li>
               <NavLink to="/admin/manage-vouchers" className={({ isActive }) => (isActive ? "active-link" : "")}>Vouchers</NavLink>
             </li>
           </ul>

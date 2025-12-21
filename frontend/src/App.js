@@ -25,6 +25,8 @@ import ManageOrders from "./pages/AdminSections/ManageOrders";
 import ManageUsers from "./pages/AdminSections/ManageUsers"; // Import ManageUsers component
 import ManageVouchers from "./pages/AdminSections/ManageVouchers"; // Import ManageVouchers component
 import AddVoucher from "./pages/AdminSections/AddVoucher"; // Import AddVoucher component
+import AdminMessages from "./pages/AdminSections/AdminMessages";
+import ChatWidget from "./components/ChatWidget";
 
 import "./style.css";
 
@@ -97,6 +99,10 @@ function App() {
               element={isAdmin ? <ManageUsers /> : <Navigate to="/login" />}
             />
             <Route
+              path="messages"
+              element={isAdmin ? <AdminMessages user={user} /> : <Navigate to="/login" />}
+            />
+            <Route
               path="manage-vouchers"
               element={isAdmin ? <ManageVouchers /> : <Navigate to="/login" />}
             />
@@ -106,6 +112,7 @@ function App() {
             />
           </Route>
         </Routes>
+        <ChatWidget user={user} />
       </BrowserRouter>
     </div>
   );

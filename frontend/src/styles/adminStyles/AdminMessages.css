@@ -1,0 +1,167 @@
+.adminMessages {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 16px;
+  height: calc(100vh - 120px);
+  background: #f8fafc;
+  padding: 12px;
+  border-radius: 12px;
+}
+
+.convoList {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.convoListHeader {
+  padding: 12px 14px;
+  font-weight: 700;
+  background: #f75828;
+  color: #fff;
+}
+
+.convoItem {
+  padding: 10px 14px;
+  border-bottom: 1px solid #f1f5f9;
+  cursor: pointer;
+}
+
+.convoItem:hover {
+  background: #f8fafc;
+}
+
+.convoItem.active {
+  background: #e6f4ff;
+  border-left: 4px solid #2563eb;
+}
+
+.convoTitle {
+  font-weight: 600;
+  color: #111827;
+}
+
+.convoBadge {
+  background: #ef4444;
+  color: #fff;
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 800;
+  margin-left: 8px;
+}
+
+.convoMeta {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 2px;
+}
+
+.messagePane {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.messageHeader {
+  padding: 12px 14px;
+  border-bottom: 1px solid #e5e7eb;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.deleteBtn {
+  background: #f75828;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.messageList {
+  flex: 1;
+  padding: 12px;
+  overflow-y: auto;
+  background: #f8fafc;
+  min-height: 0;
+}
+
+.msgRow {
+  max-width: 75%;
+  margin-bottom: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.msgRow.system {
+  margin: 12px auto;
+  background: #fef3c7;
+  border: 1px dashed #f59e0b;
+  text-align: center;
+  font-weight: 700;
+}
+
+.msgRow.mine {
+  margin-left: auto;
+  background: #e6f4ff;
+  border: 1px solid #bfdbfe;
+}
+
+.msgRow.theirs {
+  margin-right: auto;
+}
+
+.msgBody {
+  font-size: 14px;
+  color: #111827;
+}
+
+.msgMeta {
+  font-size: 11px;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+.messageInput {
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.messageInput input {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+}
+
+.messageInput button {
+  background: #f75828;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+.muted {
+  color: #6b7280;
+  padding: 12px;
+}
+
+.centered {
+  text-align: center;
+}
