@@ -167,18 +167,6 @@ body {
 
 .main-navbar .search-container .search-button:hover {
   background: #e55a2f;
-  position: absolute;
-  top: calc(100% + 5px);
-  left: 0;
-  background-color: #fff;
-  border: 1px solid #e0e0e0;
-  border-radius: 4px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  z-index: 1000;
-  max-height: 300px;
-  overflow-y: auto;
-  min-width: 200px;
-  animation: fadeIn 0.2s ease;
 }
 
 @keyframes fadeIn {
@@ -209,24 +197,6 @@ body {
   background-color: #fff0ed;
   color: #ff6334;
   font-weight: 500;
-}
-
-.main-navbar .search-container .search-button {
-  padding: 10px 24px;
-  height: 100%;
-  background: #ff6334; 
-  color: white;
-  border: none;
-  border-radius: 0 4px 4px 0;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.main-navbar .search-container .search-button:hover {
-  background: #e55a2f;
 }
 
 .main-navbar .cart-icon {
