@@ -57,7 +57,7 @@ import noOrders from "./images/no-orders.svg";
 import image1 from "./images/1.png";
 import image2 from "./images/2.png";
 import image3 from "./images/3.png";
-
+import chat from "./icons/icons8-chat-50.png";
 
 export {
     logo,
@@ -118,5 +118,5 @@ export {
     image1,
     image2,
     image3,
-    
+    chat,
 };

@@ -1,7 +1,8 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { io } from "socket.io-client";
 import axios from "axios";
 import "../styles/Chat.css";
+import { chat } from "../assets";
 
 const API_BASE_URL = (
   process.env.NODE_ENV === "development"
@@ -32,7 +33,7 @@ const ChatWidget = ({ user }) => {
     [token]
   );
 
-  const loadMessages = async () => {
+  const loadMessages = useCallback(async () => {
     setLoading(true);
     try {
       const res = await axios.get(`${API_BASE_URL}/chat/my/messages`, authHeaders);
@@ -45,9 +46,9 @@ const ChatWidget = ({ user }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [authHeaders]);
 
-  const loadUnread = async () => {
+  const loadUnread = useCallback(async () => {
     try {
       const res = await axios.get(`${API_BASE_URL}/chat/my/unread`, authHeaders);
       if (res.data?.conversationID && !conversationID) {
@@ -57,9 +58,9 @@ const ChatWidget = ({ user }) => {
     } catch (err) {
       console.error("load unread", err);
     }
-  };
+  }, [authHeaders, conversationID]);
 
-  const markConversationRead = async (cid) => {
+  const markConversationRead = useCallback(async (cid) => {
     if (!cid) return;
     try {
       await axios.patch(`${API_BASE_URL}/chat/conversations/${cid}/read`, {}, authHeaders);
@@ -67,13 +68,13 @@ const ChatWidget = ({ user }) => {
     } catch (err) {
       console.error("mark read", err);
     }
-  };
+  }, [authHeaders]);
 
   useEffect(() => {
     if (isAuthed) {
       loadUnread();
     }
-  }, [isAuthed, authHeaders]);
+  }, [isAuthed, loadUnread]);
 
   useEffect(() => {
     if (!isAuthed) return undefined;
@@ -123,13 +124,13 @@ const ChatWidget = ({ user }) => {
     return () => {
       socket.disconnect();
     };
-  }, [isAuthed, token, open, conversationID, currentUserID]);
+  }, [isAuthed, token, open, conversationID, currentUserID, markConversationRead]);
 
   useEffect(() => {
     if (!open || !isAuthed) return;
     loadMessages();
     if (conversationID) markConversationRead(conversationID);
-  }, [open, isAuthed, conversationID, authHeaders]);
+  }, [open, isAuthed, conversationID, loadMessages, markConversationRead]);
 
   useEffect(() => {
     if (bottomRef.current) {
@@ -181,13 +182,16 @@ const ChatWidget = ({ user }) => {
   return (
     <div className={`chat-widget ${open ? "open" : ""}`}>
       <button className="chat-toggle" onClick={() => setOpen(!open)}>
-        Chat
+        <img src={chat} alt="Chat" className="chat-icon-img" />
+        <span className="chat-toggle-text">Chat</span>
         {unreadCount > 0 && <span className="chat-badge">{unreadCount}</span>}
       </button>
       {open && (
         <div className="chat-panel">
           <div className="chat-header">
-            <span>Support Chat</span>
+            <span className="chat-title">
+              <span>Chat</span>
+            </span>
             <div className="chat-header-actions">
               {conversationStatus === "open" ? (
                 <button className="chat-delete" onClick={() => setShowCloseModal(true)} title="Mark solved & close" aria-label="Mark solved and close">

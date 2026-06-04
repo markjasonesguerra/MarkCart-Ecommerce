@@ -16,6 +16,31 @@
   cursor: pointer;
   box-shadow: 0 10px 30px rgba(0,0,0,0.18);
   position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chat-toggle-text {
+  line-height: 1;
+}
+
+.chat-icon-img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  display: inline-block;
+}
+
+.chat-icon-img.small {
+  width: 16px;
+  height: 16px;
+}
+
+.chat-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .chat-badge {
